@@ -1,6 +1,6 @@
 import React from 'react'
 import { Navigate, Route, Routes } from 'react-router-dom'
-import { Login } from '../pages'
+import { Login, Register } from '../pages'
 import { AuthLayout } from '../layout'
 
 export const AuthRoutes = () => {
@@ -8,7 +8,7 @@ export const AuthRoutes = () => {
     <AuthLayout>
       <Routes>
         <Route path="login" element={<Login />} />
-        <Route path="register" element={<h1>register</h1>} />
+        <Route path="register" element={<Register/>} />
         <Route path="*" element={<Navigate to="login" replace />} />
       </Routes>
     </AuthLayout>
