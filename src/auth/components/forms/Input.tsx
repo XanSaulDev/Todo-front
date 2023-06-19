@@ -18,12 +18,12 @@ export const Input = ({labelText,type,className,name}:InputProps) => {
     
   }
   return (
-    <div className={`relative ${className} my-7`}>
+    <div className={`relative ${className} my-9`}>
       
       <label>
         <span 
           className={`
-            absolute top-3 text-gray-400 transition-all ease-in-out duration-200
+            absolute top-2 text-gray-400 transition-all ease-in-out duration-200
             ${isFocus&&'-translate-y-7 text-[12px] text-teal-700'}
             `}
           >
@@ -36,7 +36,7 @@ export const Input = ({labelText,type,className,name}:InputProps) => {
           name={name} 
           className="
           block py-2 border-b-2 border-slate-300 outline-none transition-all
-        focus:border-b-teal-600 duration-300 w-full
+        focus:border-b-teal-600 duration-500 w-full
           "
 
         />
