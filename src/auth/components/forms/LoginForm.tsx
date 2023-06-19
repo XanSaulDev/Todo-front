@@ -3,8 +3,11 @@ import { Formik,Form } from "formik"
 
 import * as Yup from 'yup'
 import { Button, FormHeader, Input } from ".."
+import { UserContext } from "../../context"
+import { useContext } from "react"
 
 export const LoginForm = () => {
+  const { handleLogin } = useContext(UserContext)
   return (
     <>
       <FormHeader value="Login" />
@@ -14,7 +17,7 @@ export const LoginForm = () => {
         password: ''
       }}
       onSubmit={(data)=>{
-        console.log(data)
+        handleLogin(data)
       }}
       validationSchema={Yup.object({
         email: Yup.string().email().required('El campo email es requerido.'),

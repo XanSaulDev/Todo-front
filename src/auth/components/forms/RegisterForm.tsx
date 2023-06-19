@@ -1,7 +1,8 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import { Formik, Form } from 'formik'
 import { FormHeader,Input,Button } from './'
 import * as Yup from 'yup'
+import { UserContext } from '../../context'
 
 // Example request obj
 // {
@@ -13,6 +14,7 @@ import * as Yup from 'yup'
 // }
 
 export const RegisterForm = () => {
+  const { handleRegister } = useContext(UserContext)
   return (
     <>
       <FormHeader value="Register" />
@@ -24,8 +26,8 @@ export const RegisterForm = () => {
           'password': '',
           'password_confirm': ''
         }}
-        onSubmit={(values)=>{
-          console.log(values)
+        onSubmit={(formData)=>{
+          handleRegister(formData)
         }}
         validationSchema={Yup.object({
           'email': Yup.string().email().required('El correo electrónico es requerido.'),

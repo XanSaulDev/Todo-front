@@ -9,11 +9,12 @@ export const Nav = () => {
         </Link>
       </h1>
       <ul className="flex gap-5 text-white items-center font-semibold">
-        <li className="transition-colors duration-300 ease-in-out hover:text-teal-400 cursor-pointer border-2 py-2 px-4 rounded-md hover:border-teal-400">
-          <NavLink to="/auth/login" >
+        <NavLink to="/auth/login" >
+          
+          <li className="transition-colors duration-300 ease-in-out hover:text-teal-400 cursor-pointer border-2 py-2 px-4 rounded-md hover:border-teal-400">
             Login
-          </NavLink>
-        </li>
+          </li>
+        </NavLink>
         <li className="transition-colors duration-300 ease-in-out hover:text-teal-400 cursor-pointer">
           <NavLink to="/auth/register">
             Register

@@ -8,6 +8,6 @@ interface FormHeaderProps{
 
 export const FormHeader = ({children,className,value}:FormHeaderProps) => {
   return (
-    <h1 className={`text-2xl text-center font-semibold ${className}`}>{children || value}</h1>
+    <h1 className={`text-2xl text-center font-bold ${className}`}>{children || value}</h1>
   )
 }
