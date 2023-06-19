@@ -7,7 +7,7 @@ interface AuthLayoutProps {
 
 export const AuthLayout = ({ children }:AuthLayoutProps) => {
   return (
-    <div>
+    <div className="bg-slate-200">
       <Nav />
       {children}
     </div>
