@@ -1,7 +1,7 @@
 import { useState } from "react"
 import { FormDataUserLogin, FormDataUserRegister, User } from "../interfaces/interfaces"
 
-export const userUserContext = () => {
+export const useUserContext = () => {
   const [user,setUser] = useState<User>()
   
   const handleRegister = async(formData:FormDataUserRegister) => {
