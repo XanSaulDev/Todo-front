@@ -1,6 +1,10 @@
-import { Link, NavLink } from "react-router-dom"
+import { Link } from "react-router-dom"
 
-export const Nav = () => {
+interface NavProps{
+  children: JSX.Element | JSX.Element[]
+}
+
+export const Nav = ({children}:NavProps) => {
   return (
     <nav className="bg-teal-700 py-5 px-8 flex justify-between">
       <h1 className="text-4xl text-white font-semibold">
@@ -9,7 +13,7 @@ export const Nav = () => {
         </Link>
       </h1>
       <ul className="flex gap-5 text-white items-center font-semibold">
-          <li>
+          {/* <li>
             <NavLink 
               to="/login" 
               className="
@@ -23,7 +27,8 @@ export const Nav = () => {
           <NavLink to="/register">
             Register
           </NavLink>
-        </li>
+        </li> */}
+        {children}
       </ul>
     </nav>
   )
