@@ -1,1 +1,1 @@
-export { userUserContext } from "./useUserContext";
+export { useUserContext } from "./useUserContext";
