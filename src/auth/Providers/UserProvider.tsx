@@ -9,13 +9,22 @@ interface UserProviderProps{
 
 export const UserProvider = ({children}:UserProviderProps) => {
   
-  const { handleLogin,handleRegister,user } = useUserContext()
+  const { handleLogin,
+    handleRegister,
+    user,isAuthenticated,
+    getUserData,
+    getTokenFromLocalStorage,
+    isLoading } = useUserContext()
   
   return (
     <UserContext.Provider value={{
+    isAuthenticated,
     user,
     handleRegister,
-    handleLogin
+    handleLogin,
+    getUserData,
+    getTokenFromLocalStorage,
+    isLoading
     }}>
       {children}
     </UserContext.Provider>

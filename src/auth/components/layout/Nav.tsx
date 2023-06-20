@@ -9,14 +9,14 @@ export const Nav = () => {
         </Link>
       </h1>
       <ul className="flex gap-5 text-white items-center font-semibold">
-        <NavLink to="/auth/login" >
+        <NavLink to="/login" >
           
           <li className="transition-colors duration-300 ease-in-out hover:text-teal-400 cursor-pointer border-2 py-2 px-4 rounded-md hover:border-teal-400">
             Login
           </li>
         </NavLink>
         <li className="transition-colors duration-300 ease-in-out hover:text-teal-400 cursor-pointer">
-          <NavLink to="/auth/register">
+          <NavLink to="/register">
             Register
           </NavLink>
         </li>

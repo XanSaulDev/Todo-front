@@ -8,8 +8,12 @@ export interface User {
 
 export interface UserContextProps{
   user: User | undefined;
+  isAuthenticated: boolean;
   handleRegister: (formData: FormDataUserRegister) => Promise<void>;
   handleLogin: (formData:FormDataUserLogin)=>Promise<void>;
+  getUserData:()=>Promise<void>;
+  getTokenFromLocalStorage:()=>Promise<void>;
+  isLoading: boolean;
 }
 
 export interface FormDataUserRegister{
