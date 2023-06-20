@@ -18,7 +18,7 @@ export const AuthLayout = ({ children }:AuthLayoutProps) => {
         }
       </Nav>
       <div className="flex items-center justify-center h-screen flex-col gap-10">
-      <div className="bg-white md:px-10 md:py-15 p-10 rounded-lg md:w-4/12 sm:w-8/12 w-11/12 shadow-xl">
+      <div className="bg-white md:px-10 md:py-15 p-10 rounded-lg md:w-122 w-11/12 shadow-xl">
         {children}
       </div>
       </div>
