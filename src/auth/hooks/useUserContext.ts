@@ -1,18 +1,25 @@
-import { useState } from "react"
-import { FormDataUserLogin, FormDataUserRegister, User, UserResponse } from "../interfaces/interfaces"
+import { useReducer } from "react"
+import { FormDataUserLogin, FormDataUserRegister, User, UserResponse, UserState } from "../interfaces/interfaces"
+import { userReducer } from "../reducers"
 
 // TODO: refactor duplicate code
-// TODO: refactor state to reducer
+
+const INITIAL_STATE:UserState = {
+  user: undefined,
+  isAuthenticated: false,
+  token: '',
+  isLoading: false
+}
+
 
 export const useUserContext = () => {
-  const [user,setUser] = useState<User>()
-  const [isAuthenticated,setIsAuthenticated] = useState(true)
-  const [token,setToken] = useState<string>()
-  const [isLoading,setIsLoading] = useState(false) 
-  
+
+  const [state,dispatch] = useReducer(userReducer,INITIAL_STATE)
+  const { isAuthenticated,isLoading,token,user } = state
+
   const handleRegister = async(formData:FormDataUserRegister) => {
     try{
-      
+      dispatch({ type:'setIsLoading', payload: true })
       const req = await fetch('http://localhost:8000/api/users/',{
         method: 'POST',
         body: JSON.stringify(formData),
@@ -28,10 +35,11 @@ export const useUserContext = () => {
         const error = Object.entries(resp.errors!).map(([key, value]) => (value))
         throw new Error('Error al obtener los datos. Código de estado: '+ error );
       }
-      setIsLoading(false)
-      setUser(resp.user)
-      setToken(resp.access)
-      setIsAuthenticated(true)
+
+      dispatch({ type:'setIsLoading', payload: false })
+      dispatch({ type:'setUser', payload: resp.user })
+      dispatch({ type:'setToken', payload: resp.access })
+      dispatch({ type:'setIsAuthenticated', payload: true })
       localStorage.setItem('access',resp.access)
       localStorage.setItem('refresh',resp.refresh)
     }
@@ -42,6 +50,7 @@ export const useUserContext = () => {
 
   const handleLogin = async(formData:FormDataUserLogin)=>{
     try{
+      dispatch({ type:'setIsLoading', payload: true })
       const req = await fetch('http://127.0.0.1:8000/api/users/login',{
         method: 'POST',
         body: JSON.stringify(formData),
@@ -57,10 +66,11 @@ export const useUserContext = () => {
         const error = Object.entries(resp.errors!).map(([key, value]) => (value))
         throw new Error('Error al obtener los datos. Código de estado: '+ error );
       }
-      setIsLoading(false)
-      setUser(resp.user)
-      setIsAuthenticated(true)
-      setToken(resp.access)
+      
+      dispatch({ type:'setIsLoading', payload: false })
+      dispatch({ type:'setUser', payload: resp.user })
+      dispatch({ type:'setIsAuthenticated', payload: true })
+      dispatch({ type:'setToken', payload: resp.access })
       localStorage.setItem('access',resp.access)
       localStorage.setItem('refresh',resp.refresh)
     }
@@ -71,20 +81,21 @@ export const useUserContext = () => {
   
   
   const getTokenFromLocalStorage = async() =>{
-    
+    dispatch({ type:'setIsLoading', payload: true })
     const access = localStorage.getItem('access');
     if (!!!access) {
-      setIsAuthenticated(false)
+      dispatch({ type:'setIsAuthenticated', payload: false })
+      dispatch({ type:'setIsLoading', payload: false })
       return 
     } 
-    setIsLoading(false)
-    setIsAuthenticated(true)
-    setToken(access)
+    dispatch({ type:'setIsLoading', payload: false })
+    dispatch({ type:'setIsAuthenticated', payload: true })
+    dispatch({ type:'setToken', payload: access })
   }
 
   const getUserData = async() =>{
     try{
-      setIsLoading(true)
+      dispatch({ type:'setIsLoading', payload: true })
       const req = await fetch('http://127.0.0.1:8000/api/users/',{
         method: 'GET',
         mode: "cors",
@@ -96,7 +107,7 @@ export const useUserContext = () => {
       })
       const resp = req.json()
       console.log(resp)
-      setIsLoading(false)
+      dispatch({ type:'setIsLoading', payload: false })
     }
     catch(error){
       console.log(error)

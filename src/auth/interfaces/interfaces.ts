@@ -5,7 +5,6 @@ export interface User {
   full_name:  string;
 }
 
-
 export interface UserContextProps{
   user: User | undefined;
   isAuthenticated: boolean;
@@ -35,3 +34,9 @@ export interface UserResponse {
   errors?: []
 }
 
+export interface UserState{
+  user: User | undefined;
+  isAuthenticated: boolean;
+  token: string;
+  isLoading: boolean;
+}

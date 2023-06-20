@@ -1,3 +1,3 @@
 export * from './routes'
-export * from './Providers'
+export * from './providers'
 export * from './context'
