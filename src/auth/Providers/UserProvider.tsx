@@ -1,6 +1,5 @@
-import React, { useState } from 'react'
+import React from 'react'
 import { UserContext } from '../context'
-import { FormDataUserLogin, FormDataUserRegister, User } from '../interfaces/interfaces'
 import { useUserContext } from '../hooks'
 
 interface UserProviderProps{
