@@ -1,5 +1,7 @@
 import { useState } from "react"
-import { FormDataUserLogin, FormDataUserRegister, User } from "../interfaces/interfaces"
+import { FormDataUserLogin, FormDataUserRegister, User, UserResponse } from "../interfaces/interfaces"
+
+// TODO: refactor duplicate code
 
 export const useUserContext = () => {
   const [user,setUser] = useState<User>()
@@ -15,13 +17,15 @@ export const useUserContext = () => {
           // 'Content-Type': 'application/x-www-form-urlencoded',
         },
       })
-      const resp = await req.json()
+      const resp:UserResponse = await req.json()
 
       if(!resp.ok){
-        const error = Object.entries(resp.errors).map(([key, value]) => (value))
+        const error = Object.entries(resp.errors!).map(([key, value]) => (value))
         throw new Error('Error al obtener los datos. Código de estado: '+ error );
       }
       setUser(resp.user)
+      localStorage.setItem('access',resp.access)
+      localStorage.setItem('refresh',resp.refresh)
     }
     catch(error){
       console.log(error)
@@ -39,14 +43,15 @@ export const useUserContext = () => {
           // 'Content-Type': 'application/x-www-form-urlencoded',
         },
       })
-      const resp = await req.json()
-      console.log(resp)
+      const resp:UserResponse = await req.json()
+      
       if(!resp.ok){
-        const error = Object.entries(resp.errors).map(([key, value]) => (value))
+        const error = Object.entries(resp.errors!).map(([key, value]) => (value))
         throw new Error('Error al obtener los datos. Código de estado: '+ error );
       }
       setUser(resp.user)
-      
+      localStorage.setItem('access',resp.access)
+      localStorage.setItem('refresh',resp.refresh)
     }
     catch(error){
       console.log(error)
