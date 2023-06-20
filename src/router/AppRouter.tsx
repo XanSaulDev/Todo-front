@@ -1,6 +1,7 @@
 import React, { useContext, useEffect } from 'react'
 import { BrowserRouter, Route, Routes } from 'react-router-dom'
 import { AuthRoutes, UserContext } from '../auth'
+import { Loading } from '../components'
 
 
 export const AppRouter = () => {
@@ -12,7 +13,7 @@ export const AppRouter = () => {
 
   if(isLoading){
     return (
-      <h1>Loading...</h1>
+      <Loading />
     )
   }
 
