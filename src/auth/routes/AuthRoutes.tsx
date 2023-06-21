@@ -11,7 +11,7 @@ export const AuthRoutes = () => {
       <Routes>
         {
           authRoutes.map(({Component,path})=>(
-            <Route path={path} element={<Component />} />
+            <Route key={path} path={path} element={<Component />} />
           ))
         }
         <Route path="*" element={<Navigate to="login" replace />} />

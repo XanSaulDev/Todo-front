@@ -1,15 +1,7 @@
+import { RoutesInterfaceNav } from "../../interfaces";
 import { Login, Register } from "../pages";
 
-
-interface Routes{
-  path: string;
-  Component: () => JSX.Element;
-  to: string;
-  name: string;
-  className?: string;
-}
-
-export const authRoutes:Routes[] = [
+export const authRoutes:RoutesInterfaceNav[] = [
   {
     path: 'login',
     Component: Login,
