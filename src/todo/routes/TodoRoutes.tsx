@@ -12,6 +12,7 @@ export const TodoRoutes = () => {
             <Route key={path} path={path} element={<Component />} />
           ))
         }
+        <Route path="account" element={<>account page</>} />
         <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
     </TodoLayout>

@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom"
 
 interface NavProps{
-  children: JSX.Element | JSX.Element[],
+  children: JSX.Element | JSX.Element[] | React.ReactNode;
   className?: string
 }
 
