@@ -13,7 +13,7 @@ export const AuthLayout = ({ children }:AuthLayoutProps) => {
       <Nav>
         {
           authRoutes.map(({to,name,className})=>(
-            <NavItem to={to} name={name} className={className} />
+            <NavItem key={to} to={to} name={name} className={className} />
           ))
         }
       </Nav>
