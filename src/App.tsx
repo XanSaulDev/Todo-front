@@ -1,11 +1,15 @@
 import React from 'react';
 import { AppRouter } from './router';
-import { UserProvider } from './auth';
+import {  UserProvider } from './auth';
+import { TodoProvider } from './todo';
+
 
 function App() {
   return (
     <UserProvider>
-      <AppRouter />
+      <TodoProvider>
+        <AppRouter />
+      </TodoProvider>
     </UserProvider>
   );
 }

@@ -47,7 +47,7 @@ export const RegisterForm = () => {
               </div>
               <Input type="password" labelText="Contraseña" name="password" className="mt-2"/>
               <Input type="password" labelText="Confirmar Contreseña" name="password_confirm"  />
-              <Button type="submit">
+              <Button type="submit"className="m-auto" >
                 Registrarse
               </Button>
             </Form>
