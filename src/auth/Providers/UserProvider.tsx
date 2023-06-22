@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { UserContext } from '../context'
 import { useUserContext } from '../hooks'
 
@@ -17,6 +17,14 @@ export const UserProvider = ({children}:UserProviderProps) => {
     isLoading,
     handleLogout,
     token } = useUserContext()
+
+    useEffect(()=>{
+      getTokenFromLocalStorage()
+    },[])
+  
+    useEffect(()=>{
+      getUserData()
+    },[isAuthenticated])
   
   return (
     <UserContext.Provider value={{
