@@ -33,6 +33,7 @@ export const useUserContext = () => {
 
       if(!resp.ok){
         const error = Object.entries(resp.errors!).map(([key, value]) => (value))
+        dispatch({ type:'setIsLoading', payload: false })
         throw new Error('Error al obtener los datos. Código de estado: '+ error );
       }
 
@@ -64,6 +65,7 @@ export const useUserContext = () => {
       
       if(!resp.ok){
         const error = Object.entries(resp.errors!).map(([key, value]) => (value))
+        dispatch({ type:'setIsLoading', payload: false })
         throw new Error('Error al obtener los datos. Código de estado: '+ error );
       }
       
