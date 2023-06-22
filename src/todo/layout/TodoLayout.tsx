@@ -21,7 +21,7 @@ export const TodoLayout = ({children}:TodoLayoutProps) => {
         <NavItem to="/account" name={`User: ${user?.full_name}`} />
         <Button 
           type="button" 
-          className="mb-0 mt-0 w-24 border-2 hover:text-teal-400 hover:border-teal-400 hover:bg-teal-700 md:w-auto "
+          className="mb-0 mt-0  w-20 px-0 border-2 hover:text-teal-400 hover:border-teal-400 hover:bg-teal-700"
           onClick={handleLogout}
         >
           Logout
