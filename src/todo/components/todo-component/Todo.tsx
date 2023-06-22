@@ -24,7 +24,7 @@ export const Todo = ({todo,className,children}:TodoComponentProps) => {
         <div>
           {children}
         </div>
-        <div className="flex justify-end">
+        <div className="flex justify-end gap-2">
           <TrashIcon className="w-5 h-5 cursor-pointer"/>
           <EditIcon className="w-5 h-5 text-sky-700 cursor-pointer" />
         </div>
