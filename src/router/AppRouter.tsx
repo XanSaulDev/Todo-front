@@ -7,11 +7,15 @@ import { TodoRoutes } from '../todo/routes'
 
 
 export const AppRouter = () => {
-  const { getTokenFromLocalStorage,isAuthenticated, isLoading } = useContext(UserContext)
+  const { getTokenFromLocalStorage,isAuthenticated, isLoading,getUserData } = useContext(UserContext)
 
   useEffect(()=>{
     getTokenFromLocalStorage()
   },[])
+
+  useEffect(()=>{
+    getUserData()
+  },[isAuthenticated])
 
   if(isLoading){
     return (

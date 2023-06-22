@@ -1,5 +1,7 @@
+import { useContext } from "react";
 import { RoutesInterfaceNav } from "../../interfaces";
 import { TodosPage } from "../pages";
+import { UserContext } from "../../auth";
 
 
 export const todoRoutes:RoutesInterfaceNav[]=[
@@ -9,11 +11,4 @@ export const todoRoutes:RoutesInterfaceNav[]=[
     name:"Todos",
     path:"",
   },
-  {
-    Component: TodosPage,
-    to:"/account",
-    name:"User:",
-    path:"account",
-  },
-
 ]

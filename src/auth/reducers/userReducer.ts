@@ -2,7 +2,7 @@ import { User, UserState } from "../interfaces/interfaces"
 
 type UserAction = 
   { type:'setIsLoading', payload:boolean } |
-  { type:'setUser', payload:User } | 
+  { type:'setUser', payload:User | undefined } | 
   { type:'setToken', payload:string } |
   { type:'setIsAuthenticated', payload: boolean }
 

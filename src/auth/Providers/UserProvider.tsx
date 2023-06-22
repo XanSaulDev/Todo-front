@@ -14,7 +14,8 @@ export const UserProvider = ({children}:UserProviderProps) => {
     user,isAuthenticated,
     getUserData,
     getTokenFromLocalStorage,
-    isLoading } = useUserContext()
+    isLoading,
+    handleLogout } = useUserContext()
   
   return (
     <UserContext.Provider value={{
@@ -24,7 +25,8 @@ export const UserProvider = ({children}:UserProviderProps) => {
     handleLogin,
     getUserData,
     getTokenFromLocalStorage,
-    isLoading
+    isLoading,
+    handleLogout
     }}>
       {children}
     </UserContext.Provider>

@@ -94,22 +94,37 @@ export const useUserContext = () => {
   }
 
   const getUserData = async() =>{
-    try{
-      dispatch({ type:'setIsLoading', payload: true })
-      const req = await fetch('http://127.0.0.1:8000/api/users/',{
-        method: 'GET',
-        mode: "cors",
-        headers: {
-          "Content-Type": "application/json",
-          // 'Content-Type': 'application/x-www-form-urlencoded',
-          "Authentication": `Bearer ${token}`
-        },
-      })
-      const resp = req.json()
-      console.log(resp)
-      dispatch({ type:'setIsLoading', payload: false })
+    if(isAuthenticated){
+      try{
+        dispatch({ type:'setIsLoading', payload: true })
+        const req = await fetch('http://127.0.0.1:8000/api/users/',{
+          method: 'GET',
+          mode: "cors",
+          headers: {
+            "Content-Type": "application/json",
+            // 'Content-Type': 'application/x-www-form-urlencoded',
+            "Authorization": `Bearer ${token}`
+          },
+        })
+        const resp = await req.json()
+        dispatch({type:"setUser",payload:resp.user})
+        dispatch({ type:'setIsLoading', payload: false })
+      }
+      catch(error){
+        console.log(error)
+        dispatch({ type:'setIsLoading', payload: false })
+      }
     }
-    catch(error){
+  }
+
+  const handleLogout = () =>{
+    try{
+      localStorage.removeItem('access')
+      localStorage.removeItem('refresh')
+      dispatch({type:"setIsAuthenticated", payload:false})
+      dispatch({type:"setUser", payload: undefined })
+      dispatch({type:"setToken", payload: '' })
+    }catch(error){ 
       console.log(error)
     }
   }
@@ -121,6 +136,7 @@ export const useUserContext = () => {
     handleLogin,
     getTokenFromLocalStorage,
     getUserData,
-    isLoading
+    isLoading,
+    handleLogout
   } 
 }
