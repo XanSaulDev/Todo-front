@@ -137,6 +137,7 @@ export const useUserContext = () => {
     getTokenFromLocalStorage,
     getUserData,
     isLoading,
-    handleLogout
+    handleLogout,
+    token
   } 
 }

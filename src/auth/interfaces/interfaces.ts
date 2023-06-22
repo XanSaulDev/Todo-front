@@ -7,6 +7,7 @@ export interface User {
 
 export interface UserContextProps{
   user: User | undefined;
+  token: string;
   isAuthenticated: boolean;
   handleRegister: (formData: FormDataUserRegister) => Promise<void>;
   handleLogin: (formData:FormDataUserLogin)=>Promise<void>;
