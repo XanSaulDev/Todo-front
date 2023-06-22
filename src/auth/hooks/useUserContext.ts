@@ -117,6 +117,18 @@ export const useUserContext = () => {
     }
   }
 
+  const handleLogout = () =>{
+    try{
+      localStorage.removeItem('access')
+      localStorage.removeItem('refresh')
+      dispatch({type:"setIsAuthenticated", payload:false})
+      dispatch({type:"setUser", payload: undefined })
+      dispatch({type:"setToken", payload: '' })
+    }catch(error){ 
+      console.log(error)
+    }
+  }
+
   return {
     isAuthenticated,
     user,
@@ -124,6 +136,7 @@ export const useUserContext = () => {
     handleLogin,
     getTokenFromLocalStorage,
     getUserData,
-    isLoading
+    isLoading,
+    handleLogout
   } 
 }

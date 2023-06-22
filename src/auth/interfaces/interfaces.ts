@@ -11,6 +11,7 @@ export interface UserContextProps{
   handleRegister: (formData: FormDataUserRegister) => Promise<void>;
   handleLogin: (formData:FormDataUserLogin)=>Promise<void>;
   getUserData:()=>Promise<void>;
+  handleLogout: ()=>void;
   getTokenFromLocalStorage:()=>Promise<void>;
   isLoading: boolean;
 }
