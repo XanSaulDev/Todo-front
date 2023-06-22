@@ -13,7 +13,7 @@ export const Nav = ({children,className}:NavProps) => {
           Todo App
         </Link>
       </h1>
-      <ul className="flex gap-5 text-white items-center font-semibold">
+      <ul className="flex gap-5 justify-end text-white items-center font-semibold w-8/12">
         {children}
       </ul>
     </nav>

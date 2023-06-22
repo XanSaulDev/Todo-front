@@ -13,10 +13,12 @@ export interface TodoResponse {
 
 export interface TodoContextInterface{
   todos: TodoProps[];
+  isLoading: boolean;
 }
 
 export interface TodoStateInterface {
-  todos: TodoProps[]
+  todos: TodoProps[];
+  isLoading: boolean;
 }
 
 
