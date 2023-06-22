@@ -5,16 +5,19 @@ export interface User {
   full_name:  string;
 }
 
-export interface UserContextProps{
+export interface UserState{
   user: User | undefined;
-  token: string;
   isAuthenticated: boolean;
+  token: string;
+  isLoading: boolean;
+}
+
+export interface UserContextProps extends UserState{
   handleRegister: (formData: FormDataUserRegister) => Promise<void>;
   handleLogin: (formData:FormDataUserLogin)=>Promise<void>;
   getUserData:()=>Promise<void>;
   handleLogout: ()=>void;
   getTokenFromLocalStorage:()=>Promise<void>;
-  isLoading: boolean;
 }
 
 export interface FormDataUserRegister{
@@ -34,11 +37,4 @@ export interface UserResponse {
   access:  string;
   user:    User;
   errors?: []
-}
-
-export interface UserState{
-  user: User | undefined;
-  isAuthenticated: boolean;
-  token: string;
-  isLoading: boolean;
 }
