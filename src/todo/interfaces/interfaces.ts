@@ -14,6 +14,8 @@ export interface TodoResponse {
 export interface TodoContextInterface{
   todos: TodoProps[];
   isLoading: boolean;
+  createTodo: () => Promise<void>;
+  deleteTodo: (id: number) => Promise<void>;
 }
 
 export interface TodoStateInterface {
