@@ -2,9 +2,10 @@ import { Formik,Form } from "formik"
 
 
 import * as Yup from 'yup'
-import { Button, FormHeader, Input } from ".."
+import { FormHeader } from ".."
 import { UserContext } from "../../context"
 import { useContext } from "react"
+import { Button, CustomInputFormik } from "../../../components"
 
 export const LoginForm = () => {
   const { handleLogin } = useContext(UserContext)
@@ -28,8 +29,8 @@ export const LoginForm = () => {
       {
         (props)=>(
           <Form>
-            <Input type="email" labelText="Email" name="email" />
-            <Input type="password" labelText="password" name="password" />
+            <CustomInputFormik type="email" labelText="Email" name="email" />
+            <CustomInputFormik type="password" labelText="password" name="password" />
 
             <Button 
               type="submit"

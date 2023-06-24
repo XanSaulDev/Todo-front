@@ -1,6 +1,6 @@
 import React, { createContext } from 'react'
-import { EditIcon, TrashIcon } from '../../assets'
 import { TodoProps } from '../../interfaces/interfaces'
+import { TrashIcon } from '../../assets';
 
 interface TodoComponentProps{
   todo: TodoProps;
@@ -26,7 +26,6 @@ export const Todo = ({todo,className,children}:TodoComponentProps) => {
         </div>
         <div className="flex justify-end gap-2">
           <TrashIcon className="w-5 h-5 cursor-pointer"/>
-          <EditIcon className="w-5 h-5 text-sky-700 cursor-pointer" />
         </div>
       </div>
     </TodoCompoundContext.Provider>

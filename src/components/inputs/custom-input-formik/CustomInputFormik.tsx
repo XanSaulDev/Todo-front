@@ -8,7 +8,7 @@ interface InputProps{
   name: string;
 }
 
-export const Input = ({labelText,type="text",className,name}:InputProps) => {
+export const CustomInputFormik = ({labelText,type="text",className,name}:InputProps) => {
   const [isFocus,setIsFocus] = useState(false)
   const handleBlur = ({target}:React.FocusEvent<HTMLInputElement, Element>)=>{
     if(target.value){

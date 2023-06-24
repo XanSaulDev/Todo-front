@@ -1,8 +1,9 @@
 import React, { useContext } from 'react'
 import { Formik, Form } from 'formik'
-import { FormHeader,Input,Button } from './'
+import { FormHeader } from './'
 import * as Yup from 'yup'
 import { UserContext } from '../../context'
+import { Button, CustomInputFormik } from '../../../components'
 
 // Example request obj
 // {
@@ -40,13 +41,13 @@ export const RegisterForm = () => {
         {
           (props)=>(
             <Form>
-              <Input type="email" labelText="Email" name="email" className="mb-2"  />
+              <CustomInputFormik type="email" labelText="Email" name="email" className="mb-2"  />
               <div className="md:grid md:grid-cols-2 gap-4">
-                <Input labelText="Nombre" name="first_name"  />
-                <Input labelText="Apellido" name="last_name"  />
+                <CustomInputFormik labelText="Nombre" name="first_name"  />
+                <CustomInputFormik labelText="Apellido" name="last_name"  />
               </div>
-              <Input type="password" labelText="Contraseña" name="password" className="mt-2"/>
-              <Input type="password" labelText="Confirmar Contreseña" name="password_confirm"  />
+              <CustomInputFormik type="password" labelText="Contraseña" name="password" className="mt-2"/>
+              <CustomInputFormik type="password" labelText="Confirmar Contreseña" name="password_confirm"  />
               <Button type="submit"className="m-auto" >
                 Registrarse
               </Button>
