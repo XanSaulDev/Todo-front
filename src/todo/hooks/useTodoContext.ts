@@ -5,7 +5,7 @@ import { todosReducer } from "../reducers"
 
 const INITIAL_STATE:TodoStateInterface = {
   todos:[],
-  isLoading: false
+  isLoading: false,
 }
 
 export const useTodoContext = () => {
@@ -33,9 +33,48 @@ export const useTodoContext = () => {
     }
   }
 
+  const createTodo = async() =>{
+    try{  
+      const req = await fetch('http://127.0.0.1:8000/api/todos',{
+        method: 'POST',
+        body: JSON.stringify({"title": "Todo compound component asdasdasd ", "detail": "prueba de crear todo",
+        "is_completed": false}),
+        headers:{
+          "Content-Type": "application/json",
+          "Authorization": `Bearer ${token}`
+        }
+      })
+      const resp = await req.json()
+      console.log(resp)
+    }catch(error){
+      console.log(error)
+    }
+  }
+
+  const deleteTodo = async(id:number)=>{
+    try{  
+      const req = await fetch('http://127.0.0.1:8000/api/todos',{
+        method: 'DELETE',
+        body: JSON.stringify({"id":id}),
+        headers:{
+          "Content-Type": "application/json",
+          "Authorization": `Bearer ${token}`
+        }
+      })
+      const resp = await req.json()
+      if(resp.ok){
+        dispatch({type:"deleteTodo",payload:id})
+      }
+    }catch(error){
+      console.log(error)
+    }
+  }
+
   return{
     todos,
     fetchTodos,
-    isLoading
+    isLoading,
+    createTodo,
+    deleteTodo
   }
 }

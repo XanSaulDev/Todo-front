@@ -10,7 +10,7 @@ interface TodoProviderProps{
 export const TodoProvider = ({children}:TodoProviderProps) => {
 
   const { token,isAuthenticated } = useContext(UserContext)
-  const { fetchTodos,todos,isLoading } = useTodoContext()
+  const { fetchTodos,todos,isLoading,createTodo,deleteTodo } = useTodoContext()
 
   useEffect(()=>{
     if(!isAuthenticated) return
@@ -20,7 +20,9 @@ export const TodoProvider = ({children}:TodoProviderProps) => {
   return (
     <TodoContext.Provider value={{
       todos,
-      isLoading
+      isLoading,
+      createTodo,
+      deleteTodo
     }}>
       {children}
     </TodoContext.Provider>
