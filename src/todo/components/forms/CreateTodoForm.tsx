@@ -1,8 +1,10 @@
 import { Form, Formik } from 'formik';
-import React from 'react'
+import React, { useContext } from 'react'
 import Modal from 'react-modal';
 import { Button, CustomCheckbox, CustomInputFormik, FormHeader } from '../../../components';
 import * as Yup from 'yup'
+import { TodoContext } from '../../context';
+import { TodoProps } from '../../interfaces/interfaces';
 
 
 interface CreateTodoFormProps{
@@ -12,6 +14,7 @@ interface CreateTodoFormProps{
 
 
 export const CreateTodoForm = ({ isOpenModal,setOpenModal }:CreateTodoFormProps) => {
+  const { createTodo } = useContext(TodoContext)
   return (
     <Modal
       isOpen={isOpenModal}
@@ -25,12 +28,12 @@ export const CreateTodoForm = ({ isOpenModal,setOpenModal }:CreateTodoFormProps)
       </FormHeader>
       <Formik
         initialValues={{
-          title:'',
           detail:'',
-          completed: false
+          is_completed: false,
+          title: ''
         }}
-        onSubmit={(data)=>{
-          console.log(data)
+        onSubmit={(data:TodoProps)=>{
+          createTodo(data)
         }}
         validationSchema={Yup.object(
           {

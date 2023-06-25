@@ -1,9 +1,10 @@
-import { TodoProps, TodoStateInterface } from "../interfaces/interfaces"
+import { TodoProps, TodoResponse, TodoStateInterface } from "../interfaces/interfaces"
 
-type actionTodo = | { type:'setTodos', payload: TodoProps[] } 
-                  | { type:'deleteTodo', payload: TodoProps } 
+type actionTodo = | { type:'setTodos', payload: TodoResponse[] } 
+                  | { type:'deleteTodo', payload: TodoResponse } 
                   | { type:'setIsLoagind',payload: boolean }
                   | { type: 'deleteTodo', payload: number }
+                  | { type: 'addTodo', payload: TodoResponse }
 
 export const todosReducer = (state:TodoStateInterface,action:actionTodo):TodoStateInterface => {
   switch(action.type){
@@ -22,7 +23,11 @@ export const todosReducer = (state:TodoStateInterface,action:actionTodo):TodoSta
         ...state,
         todos: state.todos.filter(todo=>todo.id!==action.payload)
       }
-
+    case 'addTodo':
+      return {
+        ...state,
+        todos: [...state.todos,action.payload], 
+      }
     default:
       return state
   }
