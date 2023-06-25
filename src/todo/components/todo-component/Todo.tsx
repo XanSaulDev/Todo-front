@@ -1,17 +1,17 @@
 import React, { createContext, useContext } from 'react'
-import { TodoProps } from '../../interfaces/interfaces'
+import { TodoResponse } from '../../interfaces/interfaces'
 import { TrashIcon } from '../../assets';
 import { Button } from '../../../components';
 import { TodoContext } from '../../context';
 
 interface TodoComponentProps{
-  todo: TodoProps;
+  todo: TodoResponse;
   className?: string;
   children?: JSX.Element | JSX.Element [] | React.ReactNode
 }
 
 interface TodoCompoundContextState{
-  todo: TodoProps;
+  todo: TodoResponse;
 }
 
 export const TodoCompoundContext = createContext({} as TodoCompoundContextState)

@@ -1,6 +1,6 @@
 import { useContext, useReducer } from "react"
 import { UserContext } from "../../auth"
-import { TodoResponse, TodoStateInterface } from "../interfaces/interfaces"
+import { TodoProps, TodoResponse, TodoStateInterface } from "../interfaces/interfaces"
 import { todosReducer } from "../reducers"
 
 const INITIAL_STATE:TodoStateInterface = {
@@ -33,19 +33,21 @@ export const useTodoContext = () => {
     }
   }
 
-  const createTodo = async() =>{
+  const createTodo = async(formData:TodoProps) =>{
     try{  
       const req = await fetch('http://127.0.0.1:8000/api/todos',{
         method: 'POST',
-        body: JSON.stringify({"title": "Todo compound component asdasdasd ", "detail": "prueba de crear todo",
-        "is_completed": false}),
+        body: JSON.stringify(formData),
         headers:{
           "Content-Type": "application/json",
           "Authorization": `Bearer ${token}`
         }
       })
       const resp = await req.json()
-      console.log(resp)
+      if(resp.ok){
+        
+        dispatch({type:'addTodo',payload:resp.todo})
+      }
     }catch(error){
       console.log(error)
     }
