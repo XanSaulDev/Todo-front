@@ -5,6 +5,8 @@ interface SearchInput{
   className?: string;
   value?: string;
   children?: JSX.Element | JSX.Element[] | React.ReactNode;
+  onChange?:React.ChangeEventHandler<HTMLInputElement>;
+  name?: string;
 }
 
 interface CustomInputContextValues {
@@ -15,7 +17,7 @@ interface CustomInputContextValues {
 
 export const CustomInputContext = createContext({} as CustomInputContextValues)
 
-export const CustomInput = ({className,value='',children}:SearchInput) => {
+export const CustomInput = ({className,value='',children,onChange,name}:SearchInput) => {
   const {handleBlur,isFocus,setIsFocus} = useCustomInput()
   return (
     <CustomInputContext.Provider value={{
@@ -32,6 +34,8 @@ export const CustomInput = ({className,value='',children}:SearchInput) => {
               onFocus={()=>setIsFocus(true)}
               onBlur={(evt:React.FocusEvent<HTMLInputElement, Element>)=>handleBlur(evt)}
               value={value}
+              onChange={onChange}
+              name={name}
             />
         </label>
         </div>

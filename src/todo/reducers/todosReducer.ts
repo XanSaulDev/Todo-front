@@ -1,4 +1,4 @@
-import { TodoProps, TodoResponse, TodoStateInterface } from "../interfaces/interfaces"
+import {  TodoResponse, TodoStateInterface } from "../interfaces/interfaces"
 
 type actionTodo = | { type:'setTodos', payload: TodoResponse[] } 
                   | { type:'deleteTodo', payload: TodoResponse } 
@@ -26,7 +26,7 @@ export const todosReducer = (state:TodoStateInterface,action:actionTodo):TodoSta
     case 'addTodo':
       return {
         ...state,
-        todos: [...state.todos,action.payload], 
+        todos: [action.payload,...state.todos], 
       }
     default:
       return state
