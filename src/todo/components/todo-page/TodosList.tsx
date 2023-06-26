@@ -8,7 +8,7 @@ export const TodosList = () => {
     <div className="bg-white p-4 rounded-lg divide-y-2 divide-slate-300  my-5">
     {
     todos?.map((todo) => (
-      <div key={todo.id} className="my-4">
+      <div key={todo.id} className="p-4">
         <Todo todo={todo}>
           <TodoTitle />
           <TodoDetail />
