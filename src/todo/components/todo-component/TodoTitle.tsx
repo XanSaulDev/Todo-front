@@ -15,7 +15,7 @@ export const TodoTitle = ({ children,className,title }:TodoTitleProps) => {
   }
 
   return (
-    <h2 className={`font-bold text-lg ${className}`}>
+    <h2 className={`font-bold text-lg ${className} ${todo.is_completed?'line-through text-slate-700':''} `}>
       { todo?.title || children || title }
     </h2>
   )

@@ -13,9 +13,8 @@ export const TodoDetail = ({ children,className,detail }:TodoDetailProps) => {
   if(!todo.detail && !children && !detail){
     return <p className="text-slate-400">No detail</p>
   }
-
   return (
-    <p className={`${className}`}>
+    <p className={`${className} ${todo.is_completed?'line-through text-slate-700':''}`}>
       { todo?.detail || children || detail }
     </p>
   )
