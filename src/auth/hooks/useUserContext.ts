@@ -2,7 +2,11 @@ import { useReducer } from "react"
 import { FormDataUserLogin, FormDataUserRegister, UserResponse, UserState, UserUpdateForm } from "../interfaces/interfaces"
 import { userReducer } from "../reducers"
 
-// TODO: refactor duplicate code
+// ES6 Modules or TypeScript
+import Swal from 'sweetalert2'
+
+
+
 
 const INITIAL_STATE:UserState = {
   user: undefined,
@@ -33,8 +37,14 @@ export const useUserContext = () => {
 
       if(!resp.ok){
         const error = Object.entries(resp.errors!).map(([key, value]) => (value))
+        Swal.fire({
+          title: 'Error!',
+          text: error.toString(),
+          icon: 'error',
+          confirmButtonText: 'Cool'
+        })
         dispatch({ type:'setIsLoading', payload: false })
-        throw new Error('Error al obtener los datos. Código de estado: '+ error );
+        throw new Error('Error al obtener los datos. Código de estadosssssss: '+ error );
       }
 
       dispatch({ type:'setIsLoading', payload: false })
@@ -65,8 +75,14 @@ export const useUserContext = () => {
       
       if(!resp.ok){
         const error = Object.entries(resp.errors!).map(([key, value]) => (value))
+        Swal.fire({
+          title: 'Error!',
+          text: error.toString(),
+          icon: 'error',
+          confirmButtonText: 'Cool'
+        })
         dispatch({ type:'setIsLoading', payload: false })
-        throw new Error('Error al obtener los datos. Código de estado: '+ error );
+        throw new Error('Error al obtener los datos. Código de estadosssssss: '+ error );
       }
       
       dispatch({ type:'setIsLoading', payload: false })
@@ -133,6 +149,7 @@ export const useUserContext = () => {
 
   const updateAccount = async(formData:UserUpdateForm)=> {
     try{
+      console.log(JSON.stringify(formData))
       const req = await fetch('http://localhost:8000/api/users/',{
         method: 'PUT',
         body: JSON.stringify(formData),
@@ -147,9 +164,16 @@ export const useUserContext = () => {
 
       if(!resp.ok){
         const error = Object.entries(resp.errors!).map(([key, value]) => (value))
-
-        throw new Error('Error al obtener los datos. Código de estado: '+ error );
+        Swal.fire({
+          title: 'Error!',
+          text: error.toString(),
+          icon: 'error',
+          confirmButtonText: 'Cool'
+        })
+        dispatch({ type:'setIsLoading', payload: false })
+        throw new Error('Error al obtener los datos. Código de estadosssssss: '+ error );
       }
+
       dispatch({type:'setUser', payload:resp.user})
     }
     catch(error){

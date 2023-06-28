@@ -46,7 +46,7 @@ export const CreateTodoModal = () => {
               <CustomInputFormik labelText="Detail" name="detail" type="text" className="mb-2"  />
               <CustomCheckbox label="Completed" className="my-4" name="completed" />
               <Button type="submit" className={`
-              mx-auto bg-cyan-700 hover:bg-cyan-900 
+              mx-auto bg-teal-700 hover:bg-teal-900 
               ${isLoading?'bg-slate-400 hover:bg-slate-400 ':''}
               `}
               disabled={isLoading?true:false}
