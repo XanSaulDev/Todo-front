@@ -33,7 +33,7 @@ export const LoginForm = () => {
 
             <Button 
               type="submit"
-              className="mt-10 m-auto"
+              className="mt-10 m-auto bg-teal-700 hover:bg-teal-800 md:w-36 w-full"
             >
               Login
             </Button>

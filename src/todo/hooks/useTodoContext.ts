@@ -16,7 +16,7 @@ export const useTodoContext = () => {
   const fetchTodos = async () => {
     try {
       dispatch({ type: "setIsLoading", payload: true });
-      const req = await fetch("http://127.0.0.1:8000/api/todos", {
+      const req = await fetch("http://192.168.100.12:8000/api/todos", {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -33,7 +33,7 @@ export const useTodoContext = () => {
 
   const createTodo = async (formData: TodoProps) => {
     try {
-      const req = await fetch("http://127.0.0.1:8000/api/todos", {
+      const req = await fetch("http://192.168.100.12:8000/api/todos", {
         method: "POST",
         body: JSON.stringify(formData),
         headers: {
@@ -52,7 +52,7 @@ export const useTodoContext = () => {
 
   const deleteTodo = async (id: number) => {
     try {
-      const req = await fetch("http://127.0.0.1:8000/api/todos", {
+      const req = await fetch("http://192.168.100.12:8000/api/todos", {
         method: "DELETE",
         body: JSON.stringify({ id }),
         headers: {
@@ -71,7 +71,7 @@ export const useTodoContext = () => {
 
   const updateTodo = async (todo:TodoResponse) => {
     try{
-      const req = await fetch("http://127.0.0.1:8000/api/todos", {
+      const req = await fetch("http://192.168.100.12:8000/api/todos", {
         method: "PUT",
         body: JSON.stringify({ 
           ...todo,

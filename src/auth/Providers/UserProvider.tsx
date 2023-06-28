@@ -16,7 +16,10 @@ export const UserProvider = ({children}:UserProviderProps) => {
     getTokenFromLocalStorage,
     isLoading,
     handleLogout,
-    token } = useUserContext()
+    token,
+    updateAccount
+    } = useUserContext()
+
 
     useEffect(()=>{
       getTokenFromLocalStorage()
@@ -36,7 +39,8 @@ export const UserProvider = ({children}:UserProviderProps) => {
     getTokenFromLocalStorage,
     isLoading,
     handleLogout,
-    token
+    token,
+    updateAccount
     }}>
       {children}
     </UserContext.Provider>

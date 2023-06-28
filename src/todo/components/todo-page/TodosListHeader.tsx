@@ -19,8 +19,8 @@ export const TodosListHeader = () => {
           search
         </TextTypeAsPlaceHolder>
       </CustomInput>
-      <Button type="button" className="flex items-center justify-center gap-1" onClick={openModal} >
-        Create <PlusIcon className="w-5 h-5" />
+      <Button type="button" className="flex items-center justify-center gap-1 bg-teal-700 hover:bg-teal-800" onClick={openModal} >
+        Create <PlusIcon className="w-5 h-5 " />
       </Button>
     </div>
   )
