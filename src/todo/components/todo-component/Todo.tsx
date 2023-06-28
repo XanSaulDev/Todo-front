@@ -22,17 +22,17 @@ export const Todo = ({todo,className,children}:TodoComponentProps) => {
     <TodoCompoundContext.Provider value={{
       todo
     }} >
-      <div className={`my-2 p-2 flex justify-between items-center relative gap-5 ${className}`}>
+      <div className={`my-2 p-2 grid md:grid-cols-6 relative gap-5 ${className}`}>
         {
-          todo.is_completed && <CheckIcon className="absolute -top-4 text-emerald-600 -left-5" />
+          todo.is_completed && <CheckIcon className="absolute -top-3 text-emerald-600 -left-4" />
         }
 
-        <div className="flex gap-6">
+        <div className="col-span-4 flex gap-6 md:justify-start md:text-start justify-center text-center">
           <div>
             {children}
           </div>
         </div>
-        <div className="flex justify-end gap-2 items-center">
+        <div className=" flex gap-2 items-center md:justify-end justify-center">
           <Button 
             type="button" 
             className={`w-auto bg-cyan-700 hover:bg-cyan-900 ${todo.is_completed?'bg-slate-400 hover:bg-slate-500 ':''} `}

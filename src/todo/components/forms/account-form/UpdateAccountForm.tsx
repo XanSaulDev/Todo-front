@@ -6,7 +6,7 @@ import { UserContext } from '../../../../auth'
 
 
 export const UpdateAccountForm = () => {
-  const { user } = useContext(UserContext);
+  const { user,updateAccount } = useContext(UserContext);
   
   return (
     <div className="bg-white md:px-10 md:py-15 p-10 rounded-lg md:w-122 w-11/12 shadow-xl">
@@ -18,7 +18,7 @@ export const UpdateAccountForm = () => {
             'last_name':'',
           }}
           onSubmit={(formData)=>{
-            console.log(formData)
+            updateAccount(formData)
           }}
           validationSchema={Yup.object({
             'email': Yup.string().email().required('El correo electrónico es requerido.'),

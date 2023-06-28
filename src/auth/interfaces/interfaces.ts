@@ -18,6 +18,7 @@ export interface UserContextProps extends UserState{
   getUserData:()=>Promise<void>;
   handleLogout: ()=>void;
   getTokenFromLocalStorage:()=>Promise<void>;
+  updateAccount: (formData: UserUpdateForm) => Promise<void>;
 }
 
 export interface FormDataUserRegister{
@@ -37,4 +38,10 @@ export interface UserResponse {
   access:  string;
   user:    User;
   errors?: []
+}
+
+export interface UserUpdateForm{
+  email:      string;
+  first_name: string;
+  last_name:  string;
 }
