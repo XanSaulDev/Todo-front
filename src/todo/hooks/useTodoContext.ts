@@ -5,7 +5,7 @@ import { todosReducer } from "../reducers";
 
 const INITIAL_STATE: TodoStateInterface = {
   todos: [],
-  isLoading: false,
+  isLoading: true,
 };
 
 export const useTodoContext = () => {
@@ -71,6 +71,7 @@ export const useTodoContext = () => {
 
   const updateTodo = async (todo:TodoItem) => {
     try{
+      dispatch({ type: "setIsLoading", payload: true });
       const req = await fetch("http://192.168.100.12:8000/api/todos", {
         method: "PUT",
         body: JSON.stringify({ 
@@ -83,6 +84,7 @@ export const useTodoContext = () => {
         },
       });
       const resp = await req.json();
+      dispatch({ type: "setIsLoading", payload: false });
       if (resp.ok) {
         dispatch({type:'updateTodo', payload: resp.todo})
         
