@@ -16,7 +16,7 @@ export const TodosList = () => {
       </div>
     ))}
     {
-      todos.length<=0 && <p className="text-slate-400">Add Todos!!!!</p>
+      todos.length<=0 && <p className="text-slate-400">Not Todos :(</p>
     }
   </div>
   )

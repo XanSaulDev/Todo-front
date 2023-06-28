@@ -1,20 +1,29 @@
-import React, { useContext } from 'react'
+import React, { useContext, useRef} from 'react'
 import { useForm } from '../../../hooks'
 import { CreateTodoModalContext } from '../forms'
 import { Button, CustomInput, TextTypeAsPlaceHolder } from '../../../components'
 import { PlusIcon } from '../../assets'
+import { TodoContext } from '../../context'
 
 export const TodosListHeader = () => {
 
   const { openModal } = useContext(CreateTodoModalContext)
+  const { searchTodo } = useContext(TodoContext)
+
+  const debounceRef = useRef<NodeJS.Timeout>()
   
-  const {search,setValue} = useForm({
-    search:''
-  })
+  const onQueryChanged = (ev:React.ChangeEvent<HTMLInputElement>) => {
+    if(debounceRef.current){
+      clearTimeout(debounceRef.current)
+    }
+    debounceRef.current = setTimeout(()=>{
+      searchTodo(ev.target.value)
+    },400)
+  }
 
   return (
     <div className="flex justify-between mt-10">
-      <CustomInput className="w-5/12" onChange={setValue} name="search" value={search} >
+      <CustomInput className="w-5/12" onChange={onQueryChanged} name="search" >
         <TextTypeAsPlaceHolder>
           search
         </TextTypeAsPlaceHolder>

@@ -33,9 +33,9 @@ export const CustomInput = ({className,value='',children,onChange,name}:SearchIn
                         focus:border-b-teal-500 duration-500 w-full cursor-pointer bg-slate-200" 
               onFocus={()=>setIsFocus(true)}
               onBlur={(evt:React.FocusEvent<HTMLInputElement, Element>)=>handleBlur(evt)}
-              value={value}
               onChange={onChange}
               name={name}
+              
             />
         </label>
         </div>

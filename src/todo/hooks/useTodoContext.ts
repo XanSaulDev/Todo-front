@@ -5,13 +5,14 @@ import { todosReducer } from "../reducers";
 
 const INITIAL_STATE: TodoStateInterface = {
   todos: [],
+  totalOfTodos: 0,
   isLoading: false,
 };
 
 export const useTodoContext = () => {
   const { token } = useContext(UserContext);
   const [state, dispatch] = useReducer(todosReducer, INITIAL_STATE);
-  const { todos, isLoading } = state;
+  const { todos, isLoading,totalOfTodos } = state;
 
   const fetchTodos = async () => {
     try {
@@ -22,7 +23,7 @@ export const useTodoContext = () => {
         },
       });
 
-      const resp: TodoResponse = await req.json();
+      const resp = await req.json();
       dispatch({ type: "setIsLoading", payload: false });
       dispatch({ type: "setTodos", payload: resp.todos });
     } catch (error) {
@@ -92,12 +93,35 @@ export const useTodoContext = () => {
     }
   }
 
+  const searchTodo = async(search:string) =>{
+    try {
+      dispatch({ type: "setIsLoading", payload: true });
+      const req = await fetch("http://127.0.0.1:8000/api/todos/search-todo", {
+        method: 'POST',
+        body: JSON.stringify({search,}),
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+      });
+
+      const resp = await req.json();
+      console.log(resp)
+      dispatch({type:"setTodos", payload:resp.todos})
+    } catch (error) {
+
+      console.log(error);
+    }
+  }
+
   return {
     todos,
     fetchTodos,
     isLoading,
     createTodo,
     deleteTodo,
-    updateTodo
+    updateTodo,
+    searchTodo,
+    totalOfTodos
   };
 };
