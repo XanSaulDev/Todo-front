@@ -47,7 +47,7 @@ export const RegisterForm = () => {
               </div>
               <CustomInputFormik type="password" labelText="Contraseña" name="password" className="mt-2"/>
               <CustomInputFormik type="password" labelText="Confirmar Contreseña" name="password_confirm"  />
-              <Button type="submit"className="m-auto" >
+              <Button type="submit"className="m-auto bg-teal-700 hover:bg-teal-800 md:w-36 w-full" >
                 Registrarse
               </Button>
             </Form>
