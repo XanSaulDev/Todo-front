@@ -17,7 +17,6 @@ export const TodoProvider = ({children}:TodoProviderProps) => {
           deleteTodo,
           updateTodo,
           searchTodo,
-          totalOfTodos
         } = useTodoContext()
 
   useEffect(()=>{
@@ -33,7 +32,6 @@ export const TodoProvider = ({children}:TodoProviderProps) => {
       deleteTodo,
       updateTodo,
       searchTodo,
-      totalOfTodos
     }}>
       {children}
     </TodoContext.Provider>

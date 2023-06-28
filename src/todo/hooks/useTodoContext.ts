@@ -1,18 +1,17 @@
 import { useContext, useReducer } from "react";
 import { UserContext } from "../../auth";
-import { TodoProps, TodoResponse, TodoStateInterface } from "../interfaces/interfaces";
+import { TodoProps, TodoItem, TodoStateInterface } from "../interfaces/interfaces";
 import { todosReducer } from "../reducers";
 
 const INITIAL_STATE: TodoStateInterface = {
   todos: [],
-  totalOfTodos: 0,
   isLoading: false,
 };
 
 export const useTodoContext = () => {
   const { token } = useContext(UserContext);
   const [state, dispatch] = useReducer(todosReducer, INITIAL_STATE);
-  const { todos, isLoading,totalOfTodos } = state;
+  const { todos, isLoading } = state;
 
   const fetchTodos = async () => {
     try {
@@ -70,7 +69,7 @@ export const useTodoContext = () => {
     }
   };
 
-  const updateTodo = async (todo:TodoResponse) => {
+  const updateTodo = async (todo:TodoItem) => {
     try{
       const req = await fetch("http://192.168.100.12:8000/api/todos", {
         method: "PUT",
@@ -122,6 +121,5 @@ export const useTodoContext = () => {
     deleteTodo,
     updateTodo,
     searchTodo,
-    totalOfTodos
   };
 };
