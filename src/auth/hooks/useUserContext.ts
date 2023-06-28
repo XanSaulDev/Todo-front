@@ -151,7 +151,6 @@ export const useUserContext = () => {
         throw new Error('Error al obtener los datos. Código de estado: '+ error );
       }
       dispatch({type:'setUser', payload:resp.user})
-      console.log(resp)
     }
     catch(error){
       console.log(error)

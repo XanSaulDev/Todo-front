@@ -27,12 +27,12 @@ export const Todo = ({todo,className,children}:TodoComponentProps) => {
           todo.is_completed && <CheckIcon className="absolute -top-3 text-emerald-600 -left-4" />
         }
 
-        <div className="col-span-4 flex gap-6 md:justify-start md:text-start justify-center text-center">
+        <div className="md:col-span-4 flex gap-6 md:justify-start md:text-start justify-center text-center">
           <div>
             {children}
           </div>
         </div>
-        <div className=" flex gap-2 items-center md:justify-end justify-center">
+        <div className="md:col-span-2 flex gap-2 items-center md:justify-end justify-center">
           <Button 
             type="button" 
             className={`w-auto bg-cyan-700 hover:bg-cyan-900 ${todo.is_completed?'bg-slate-400 hover:bg-slate-500 ':''} `}
