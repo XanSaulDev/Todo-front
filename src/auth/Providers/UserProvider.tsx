@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { UserContext } from '../context'
 import { useUserContext } from '../hooks'
 
@@ -16,7 +16,18 @@ export const UserProvider = ({children}:UserProviderProps) => {
     getTokenFromLocalStorage,
     isLoading,
     handleLogout,
-    token } = useUserContext()
+    token,
+    updateAccount
+    } = useUserContext()
+
+
+    useEffect(()=>{
+      getTokenFromLocalStorage()
+    },[])
+  
+    useEffect(()=>{
+      getUserData()
+    },[isAuthenticated])
   
   return (
     <UserContext.Provider value={{
@@ -28,7 +39,8 @@ export const UserProvider = ({children}:UserProviderProps) => {
     getTokenFromLocalStorage,
     isLoading,
     handleLogout,
-    token
+    token,
+    updateAccount
     }}>
       {children}
     </UserContext.Provider>

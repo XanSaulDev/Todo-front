@@ -1,5 +1,5 @@
 import { useReducer } from "react"
-import { FormDataUserLogin, FormDataUserRegister, User, UserResponse, UserState } from "../interfaces/interfaces"
+import { FormDataUserLogin, FormDataUserRegister, UserResponse, UserState, UserUpdateForm } from "../interfaces/interfaces"
 import { userReducer } from "../reducers"
 
 // TODO: refactor duplicate code
@@ -20,7 +20,7 @@ export const useUserContext = () => {
   const handleRegister = async(formData:FormDataUserRegister) => {
     try{
       dispatch({ type:'setIsLoading', payload: true })
-      const req = await fetch('http://localhost:8000/api/users/',{
+      const req = await fetch('http://192.168.100.12:8000/api/users/',{
         method: 'POST',
         body: JSON.stringify(formData),
         mode: "cors",
@@ -33,6 +33,7 @@ export const useUserContext = () => {
 
       if(!resp.ok){
         const error = Object.entries(resp.errors!).map(([key, value]) => (value))
+        dispatch({ type:'setIsLoading', payload: false })
         throw new Error('Error al obtener los datos. Código de estado: '+ error );
       }
 
@@ -51,7 +52,7 @@ export const useUserContext = () => {
   const handleLogin = async(formData:FormDataUserLogin)=>{
     try{
       dispatch({ type:'setIsLoading', payload: true })
-      const req = await fetch('http://127.0.0.1:8000/api/users/login',{
+      const req = await fetch('http://192.168.100.12:8000/api/users/login',{
         method: 'POST',
         body: JSON.stringify(formData),
         mode: "cors",
@@ -64,6 +65,7 @@ export const useUserContext = () => {
       
       if(!resp.ok){
         const error = Object.entries(resp.errors!).map(([key, value]) => (value))
+        dispatch({ type:'setIsLoading', payload: false })
         throw new Error('Error al obtener los datos. Código de estado: '+ error );
       }
       
@@ -97,7 +99,7 @@ export const useUserContext = () => {
     if(isAuthenticated){
       try{
         dispatch({ type:'setIsLoading', payload: true })
-        const req = await fetch('http://127.0.0.1:8000/api/users/',{
+        const req = await fetch('http://192.168.100.12:8000/api/users/',{
           method: 'GET',
           mode: "cors",
           headers: {
@@ -129,6 +131,33 @@ export const useUserContext = () => {
     }
   }
 
+  const updateAccount = async(formData:UserUpdateForm)=> {
+    try{
+      const req = await fetch('http://localhost:8000/api/users/',{
+        method: 'PUT',
+        body: JSON.stringify(formData),
+        mode: "cors",
+        headers: {
+          "Content-Type": "application/json",
+          // 'Content-Type': 'application/x-www-form-urlencoded',
+          "Authorization": `Bearer ${token}`
+        },
+      })
+      const resp = await req.json()
+
+      if(!resp.ok){
+        const error = Object.entries(resp.errors!).map(([key, value]) => (value))
+
+        throw new Error('Error al obtener los datos. Código de estado: '+ error );
+      }
+      dispatch({type:'setUser', payload:resp.user})
+    }
+    catch(error){
+      console.log(error)
+    }
+  }
+
+
   return {
     isAuthenticated,
     user,
@@ -138,6 +167,7 @@ export const useUserContext = () => {
     getUserData,
     isLoading,
     handleLogout,
-    token
+    token,
+    updateAccount
   } 
 }

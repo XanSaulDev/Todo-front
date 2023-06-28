@@ -1,23 +1,33 @@
 
-export interface TodoProps {
+export interface TodoProps{
   title:        string;
   detail:       string;
   is_completed: boolean;
-  id:           number;
+}
+
+export interface TodoResponse extends TodoProps {
+  id:  number;
 }
 
 export interface TodoResponse {
   ok:    boolean;
-  todos: TodoProps[];
+  todos: TodoResponse[];
 }
 
 export interface TodoContextInterface{
-  todos: TodoProps[];
+  todos: TodoResponse[];
+  isLoading: boolean;
+  createTodo: (formData: TodoProps) => Promise<void>;
+  deleteTodo: (id: number) => Promise<void>;
+  updateTodo: (todo: TodoResponse) => Promise<void>;
 }
 
 export interface TodoStateInterface {
-  todos: TodoProps[]
+  todos: TodoResponse[];
+  isLoading: boolean;
 }
+
+
 
 
 
