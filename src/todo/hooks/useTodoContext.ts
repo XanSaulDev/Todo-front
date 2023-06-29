@@ -107,7 +107,7 @@ export const useTodoContext = () => {
       });
 
       const resp = await req.json();
-      console.log(resp)
+      dispatch({ type: "setIsLoading", payload: false });
       dispatch({type:"setTodos", payload:resp.todos})
     } catch (error) {
 
