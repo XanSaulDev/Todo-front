@@ -2,7 +2,11 @@ import { useReducer } from "react"
 import { FormDataUserLogin, FormDataUserRegister, UserResponse, UserState, UserUpdateForm } from "../interfaces/interfaces"
 import { userReducer } from "../reducers"
 
-// TODO: refactor duplicate code
+// ES6 Modules or TypeScript
+import Swal from 'sweetalert2'
+
+
+
 
 const INITIAL_STATE:UserState = {
   user: undefined,
@@ -20,7 +24,7 @@ export const useUserContext = () => {
   const handleRegister = async(formData:FormDataUserRegister) => {
     try{
       dispatch({ type:'setIsLoading', payload: true })
-      const req = await fetch('http://192.168.100.12:8000/api/users/',{
+      const req = await fetch(`${process.env.REACT_APP_URL_API}api/users/`,{
         method: 'POST',
         body: JSON.stringify(formData),
         mode: "cors",
@@ -33,8 +37,14 @@ export const useUserContext = () => {
 
       if(!resp.ok){
         const error = Object.entries(resp.errors!).map(([key, value]) => (value))
+        Swal.fire({
+          title: 'Error!',
+          text: error.toString(),
+          icon: 'error',
+          confirmButtonText: 'Cool'
+        })
         dispatch({ type:'setIsLoading', payload: false })
-        throw new Error('Error al obtener los datos. Código de estado: '+ error );
+        throw new Error('Error al obtener los datos. Código de estados: '+ error );
       }
 
       dispatch({ type:'setIsLoading', payload: false })
@@ -52,7 +62,7 @@ export const useUserContext = () => {
   const handleLogin = async(formData:FormDataUserLogin)=>{
     try{
       dispatch({ type:'setIsLoading', payload: true })
-      const req = await fetch('http://192.168.100.12:8000/api/users/login',{
+      const req = await fetch(`${process.env.REACT_APP_URL_API}api/users/login`,{
         method: 'POST',
         body: JSON.stringify(formData),
         mode: "cors",
@@ -65,8 +75,14 @@ export const useUserContext = () => {
       
       if(!resp.ok){
         const error = Object.entries(resp.errors!).map(([key, value]) => (value))
+        Swal.fire({
+          title: 'Error!',
+          text: error.toString(),
+          icon: 'error',
+          confirmButtonText: 'Cool'
+        })
         dispatch({ type:'setIsLoading', payload: false })
-        throw new Error('Error al obtener los datos. Código de estado: '+ error );
+        throw new Error('Error al obtener los datos. Código de estados: '+ error );
       }
       
       dispatch({ type:'setIsLoading', payload: false })
@@ -99,7 +115,7 @@ export const useUserContext = () => {
     if(isAuthenticated){
       try{
         dispatch({ type:'setIsLoading', payload: true })
-        const req = await fetch('http://192.168.100.12:8000/api/users/',{
+        const req = await fetch(`${process.env.REACT_APP_URL_API}api/users/`,{
           method: 'GET',
           mode: "cors",
           headers: {
@@ -133,7 +149,8 @@ export const useUserContext = () => {
 
   const updateAccount = async(formData:UserUpdateForm)=> {
     try{
-      const req = await fetch('http://localhost:8000/api/users/',{
+      console.log(JSON.stringify(formData))
+      const req = await fetch(`${process.env.REACT_APP_URL_API}api/users/`,{
         method: 'PUT',
         body: JSON.stringify(formData),
         mode: "cors",
@@ -147,9 +164,16 @@ export const useUserContext = () => {
 
       if(!resp.ok){
         const error = Object.entries(resp.errors!).map(([key, value]) => (value))
-
-        throw new Error('Error al obtener los datos. Código de estado: '+ error );
+        Swal.fire({
+          title: 'Error!',
+          text: error.toString(),
+          icon: 'error',
+          confirmButtonText: 'Cool'
+        })
+        dispatch({ type:'setIsLoading', payload: false })
+        throw new Error('Error al obtener los datos. Código de estados: '+ error );
       }
+
       dispatch({type:'setUser', payload:resp.user})
     }
     catch(error){

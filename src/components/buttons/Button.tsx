@@ -5,9 +5,10 @@ interface ButtonProps{
   type: 'button' | 'submit' | 'reset' ;
   className?: string;
   onClick?: React.MouseEventHandler<HTMLButtonElement>;
+  disabled?: boolean;
 }
 
-export const Button = ({children,type,className,onClick}:ButtonProps) => {
+export const Button = ({children,type,className,onClick,disabled}:ButtonProps) => {
   return (
     <button 
       className={`
@@ -16,6 +17,7 @@ export const Button = ({children,type,className,onClick}:ButtonProps) => {
       `}
       onClick={onClick}
       type={type}
+      disabled={disabled}
     >
 
       {children}
