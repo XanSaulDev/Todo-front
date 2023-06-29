@@ -9,11 +9,20 @@ interface NavItemProps{
 
 export const NavItem = ({to,name,className}:NavItemProps) => {
   return (
-    <li>
+    <li
+    className={``}
+    >
       <NavLink 
         to={to}
-        className={`transition-colors duration-300 ease-in-out hover:text-teal-400 
-        cursor-pointer ${className}`}
+        className={
+          ({isActive}: {isActive: boolean;isPending: boolean; })=>`
+            ${isActive?'text-teal-400 border-teal-400':''} 
+            transition-colors duration-300 ease-in-out 
+            
+            hover:text-teal-400 cursor-pointer 
+            ${className}
+            `
+        }
       >
         {name}
       </NavLink>
