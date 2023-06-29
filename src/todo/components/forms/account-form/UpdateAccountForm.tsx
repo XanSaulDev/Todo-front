@@ -6,7 +6,7 @@ import { UserContext } from '../../../../auth'
 
 
 export const UpdateAccountForm = () => {
-  const { user,updateAccount } = useContext(UserContext);
+  const { user,updateAccount,isLoading } = useContext(UserContext);
   
   return (
     <div className="bg-white md:px-10 md:py-15 p-10 rounded-lg w-full shadow-xl">
@@ -34,7 +34,13 @@ export const UpdateAccountForm = () => {
                   <CustomInputFormik labelText="Nombre" name="first_name" value={user?.first_name} />
                   <CustomInputFormik labelText="Apellido" name="last_name" value={user?.last_name} />
                 </div>
-                <Button type="submit"className="m-auto bg-teal-700 hover:bg-teal-800 md:w-36 w-full" >
+                <Button 
+                  type="submit"
+                  className={`m-auto md:w-36 w-full 
+                  ${isLoading?'bg-gray-400 hover:bg-gray-400':'bg-teal-700 hover:bg-teal-800'}
+                  `}
+                  disabled={isLoading}
+                >
                   Update
                 </Button>
               </Form>
