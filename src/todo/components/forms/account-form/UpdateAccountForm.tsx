@@ -36,8 +36,8 @@ export const UpdateAccountForm = () => {
                 </div>
                 <Button 
                   type="submit"
-                  className={`m-auto bg-teal-700 hover:bg-teal-800 md:w-36 w-full 
-                  ${isLoading?'bg-gray-400 hover:bg-gray-400':''}
+                  className={`m-auto md:w-36 w-full 
+                  ${isLoading?'bg-gray-400 hover:bg-gray-400':'bg-teal-700 hover:bg-teal-800'}
                   `}
                   disabled={isLoading}
                 >
