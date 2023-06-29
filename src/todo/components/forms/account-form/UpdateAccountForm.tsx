@@ -9,7 +9,7 @@ export const UpdateAccountForm = () => {
   const { user,updateAccount } = useContext(UserContext);
   
   return (
-    <div className="bg-white md:px-10 md:py-15 p-10 rounded-lg md:w-122 w-11/12 shadow-xl">
+    <div className="bg-white md:px-10 md:py-15 p-10 rounded-lg w-full shadow-xl">
       <FormHeader value="Update User Data" />
         <Formik
           initialValues={{
