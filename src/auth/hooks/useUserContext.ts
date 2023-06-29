@@ -24,7 +24,7 @@ export const useUserContext = () => {
   const handleRegister = async(formData:FormDataUserRegister) => {
     try{
       dispatch({ type:'setIsLoading', payload: true })
-      const req = await fetch('http://192.168.100.12:8000/api/users/',{
+      const req = await fetch(`${process.env.REACT_APP_URL_API}api/users/`,{
         method: 'POST',
         body: JSON.stringify(formData),
         mode: "cors",
@@ -44,7 +44,7 @@ export const useUserContext = () => {
           confirmButtonText: 'Cool'
         })
         dispatch({ type:'setIsLoading', payload: false })
-        throw new Error('Error al obtener los datos. Código de estadosssssss: '+ error );
+        throw new Error('Error al obtener los datos. Código de estados: '+ error );
       }
 
       dispatch({ type:'setIsLoading', payload: false })
@@ -62,7 +62,7 @@ export const useUserContext = () => {
   const handleLogin = async(formData:FormDataUserLogin)=>{
     try{
       dispatch({ type:'setIsLoading', payload: true })
-      const req = await fetch('http://192.168.100.12:8000/api/users/login',{
+      const req = await fetch(`${process.env.REACT_APP_URL_API}api/users/login`,{
         method: 'POST',
         body: JSON.stringify(formData),
         mode: "cors",
@@ -82,7 +82,7 @@ export const useUserContext = () => {
           confirmButtonText: 'Cool'
         })
         dispatch({ type:'setIsLoading', payload: false })
-        throw new Error('Error al obtener los datos. Código de estadosssssss: '+ error );
+        throw new Error('Error al obtener los datos. Código de estados: '+ error );
       }
       
       dispatch({ type:'setIsLoading', payload: false })
@@ -115,7 +115,7 @@ export const useUserContext = () => {
     if(isAuthenticated){
       try{
         dispatch({ type:'setIsLoading', payload: true })
-        const req = await fetch('http://192.168.100.12:8000/api/users/',{
+        const req = await fetch(`${process.env.REACT_APP_URL_API}api/users/`,{
           method: 'GET',
           mode: "cors",
           headers: {
@@ -150,7 +150,7 @@ export const useUserContext = () => {
   const updateAccount = async(formData:UserUpdateForm)=> {
     try{
       console.log(JSON.stringify(formData))
-      const req = await fetch('http://localhost:8000/api/users/',{
+      const req = await fetch(`${process.env.REACT_APP_URL_API}api/users/`,{
         method: 'PUT',
         body: JSON.stringify(formData),
         mode: "cors",
@@ -171,7 +171,7 @@ export const useUserContext = () => {
           confirmButtonText: 'Cool'
         })
         dispatch({ type:'setIsLoading', payload: false })
-        throw new Error('Error al obtener los datos. Código de estadosssssss: '+ error );
+        throw new Error('Error al obtener los datos. Código de estados: '+ error );
       }
 
       dispatch({type:'setUser', payload:resp.user})
