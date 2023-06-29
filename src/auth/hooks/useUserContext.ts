@@ -1,9 +1,10 @@
-import { useReducer } from "react"
+import { useContext, useReducer } from "react"
 import { FormDataUserLogin, FormDataUserRegister, UserResponse, UserState, UserUpdateForm } from "../interfaces/interfaces"
 import { userReducer } from "../reducers"
 
 // ES6 Modules or TypeScript
 import Swal from 'sweetalert2'
+import { GlobalContext } from "../../context"
 
 
 
@@ -17,12 +18,13 @@ const INITIAL_STATE:UserState = {
 
 
 export const useUserContext = () => {
-
+  const { setIsLoading: globalSetLoading, isLoading: globalLoading } = useContext(GlobalContext)
   const [state,dispatch] = useReducer(userReducer,INITIAL_STATE)
   const { isAuthenticated,isLoading,token,user } = state
 
   const handleRegister = async(formData:FormDataUserRegister) => {
     try{
+      globalSetLoading(true)
       dispatch({ type:'setIsLoading', payload: true })
       const req = await fetch(`${process.env.REACT_APP_URL_API}api/users/`,{
         method: 'POST',
@@ -43,10 +45,12 @@ export const useUserContext = () => {
           icon: 'error',
           confirmButtonText: 'Cool'
         })
+        globalSetLoading(false)
         dispatch({ type:'setIsLoading', payload: false })
         throw new Error('Error al obtener los datos. Código de estados: '+ error );
       }
-
+      
+      globalSetLoading(false)
       dispatch({ type:'setIsLoading', payload: false })
       dispatch({ type:'setUser', payload: resp.user })
       dispatch({ type:'setToken', payload: resp.access })
@@ -61,6 +65,7 @@ export const useUserContext = () => {
 
   const handleLogin = async(formData:FormDataUserLogin)=>{
     try{
+      globalSetLoading(true)
       dispatch({ type:'setIsLoading', payload: true })
       const req = await fetch(`${process.env.REACT_APP_URL_API}api/users/login`,{
         method: 'POST',
@@ -81,10 +86,12 @@ export const useUserContext = () => {
           icon: 'error',
           confirmButtonText: 'Cool'
         })
+        globalSetLoading(false)
         dispatch({ type:'setIsLoading', payload: false })
         throw new Error('Error al obtener los datos. Código de estados: '+ error );
       }
       
+      globalSetLoading(false)
       dispatch({ type:'setIsLoading', payload: false })
       dispatch({ type:'setUser', payload: resp.user })
       dispatch({ type:'setIsAuthenticated', payload: true })
@@ -146,10 +153,10 @@ export const useUserContext = () => {
       console.log(error)
     }
   }
-
+  
   const updateAccount = async(formData:UserUpdateForm)=> {
     try{
-      console.log(JSON.stringify(formData))
+      dispatch({ type:'setIsLoading', payload: true })
       const req = await fetch(`${process.env.REACT_APP_URL_API}api/users/`,{
         method: 'PUT',
         body: JSON.stringify(formData),
@@ -173,7 +180,12 @@ export const useUserContext = () => {
         dispatch({ type:'setIsLoading', payload: false })
         throw new Error('Error al obtener los datos. Código de estados: '+ error );
       }
-
+      Swal.fire({
+        title: 'Success!',
+        icon: 'success',
+        confirmButtonText: 'Cool'
+      })
+      dispatch({ type:'setIsLoading', payload: false })
       dispatch({type:'setUser', payload:resp.user})
     }
     catch(error){
