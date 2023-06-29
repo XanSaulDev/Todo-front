@@ -5,3 +5,9 @@ export interface RoutesInterfaceNav{
   name: string;
   className?: string;
 }
+
+
+export interface GlobalContextInterface{
+  isLoading: boolean;
+  setIsLoading:React.Dispatch<React.SetStateAction<boolean>>;
+}

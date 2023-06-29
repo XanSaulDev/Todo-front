@@ -43,7 +43,7 @@ export const Todo = ({todo,className,children}:TodoComponentProps) => {
               ${isLoading?'bg-slate-400 hover:bg-slate-400 ':''}
               `}
             onClick={()=>updateTodo(todo)}
-            disabled={isLoading?true:false}
+            disabled={isLoading}
           >
               completed
             </Button>
