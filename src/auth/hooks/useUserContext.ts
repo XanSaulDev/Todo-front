@@ -1,11 +1,11 @@
 import { useContext, useReducer } from "react"
-import { FormDataUserLogin, FormDataUserRegister, UserResponse, UserState, UserUpdateForm } from "../interfaces/interfaces"
+import { FormDataUserLogin, FormDataUserRegister, Jwt, UserResponse, UserState, UserUpdateForm } from "../interfaces/interfaces"
 import { userReducer } from "../reducers"
+import { GlobalContext } from "../../context"
+import jwt_decode from "jwt-decode";
 
 // ES6 Modules or TypeScript
 import Swal from 'sweetalert2'
-import { GlobalContext } from "../../context"
-
 
 
 
@@ -106,13 +106,27 @@ export const useUserContext = () => {
   
   
   const getTokenFromLocalStorage = async() =>{
+
     dispatch({ type:'setIsLoading', payload: true })
+
     const access = localStorage.getItem('access');
-    if (!!!access) {
+
+    if (!!!access){
       dispatch({ type:'setIsAuthenticated', payload: false })
       dispatch({ type:'setIsLoading', payload: false })
-      return 
+      return
     } 
+    
+    const { exp } = jwt_decode<Jwt>(access)
+    const date = new Date()
+
+    if (exp < date.getTime()){
+      localStorage.removeItem('token')
+      dispatch({ type:'setIsAuthenticated', payload: false })
+      dispatch({ type:'setIsLoading', payload: false })
+    }
+    
+
     dispatch({ type:'setIsLoading', payload: false })
     dispatch({ type:'setIsAuthenticated', payload: true })
     dispatch({ type:'setToken', payload: access })
