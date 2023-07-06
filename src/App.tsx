@@ -8,17 +8,19 @@ import { GlobalContextProvider } from './provider';
 
 function App() {
   return (
-    <GlobalContextProvider>
-      <UserProvider>
-        <TodoProvider>
-          <CreateTodoProvider>
+    <div className="bg-slate-200 min-h-screen">
+      <GlobalContextProvider>
+        <UserProvider>
+          <TodoProvider>
+            <CreateTodoProvider>
 
-            <AppRouter />
-            
-          </CreateTodoProvider>
-        </TodoProvider>
-      </UserProvider>
-    </GlobalContextProvider>
+              <AppRouter />
+              
+            </CreateTodoProvider>
+          </TodoProvider>
+        </UserProvider>
+      </GlobalContextProvider>
+    </div>
   );
 }
 
