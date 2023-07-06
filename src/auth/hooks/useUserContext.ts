@@ -146,6 +146,7 @@ export const useUserContext = () => {
           },
         })
         const resp = await req.json()
+        localStorage.setItem('user',resp.user)
         dispatch({type:"setUser",payload:resp.user})
         dispatch({ type:'setIsLoading', payload: false })
       }
@@ -160,6 +161,7 @@ export const useUserContext = () => {
     try{
       localStorage.removeItem('access')
       localStorage.removeItem('refresh')
+      localStorage.removeItem('user')
       dispatch({type:"setIsAuthenticated", payload:false})
       dispatch({type:"setUser", payload: undefined })
       dispatch({type:"setToken", payload: '' })
