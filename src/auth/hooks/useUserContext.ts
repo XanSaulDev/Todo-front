@@ -210,6 +210,7 @@ export const useUserContext = () => {
         confirmButtonText: 'Cool'
       })
       dispatch({ type:'setIsLoading', payload: false })
+      localStorage.setItem('user',JSON.stringify(resp.user))
       dispatch({type:'setUser', payload:resp.user})
     }
     catch(error){
