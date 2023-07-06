@@ -97,6 +97,7 @@ export const useUserContext = () => {
       dispatch({ type:'setIsAuthenticated', payload: true })
       dispatch({ type:'setToken', payload: resp.access })
       localStorage.setItem('access',resp.access)
+      localStorage.setItem('user',JSON.stringify(resp.user))
       localStorage.setItem('refresh',resp.refresh)
     }
     catch(error){
@@ -134,6 +135,13 @@ export const useUserContext = () => {
 
   const getUserData = async() =>{
     if(isAuthenticated){
+      const userLocalStorage = localStorage.getItem('user')
+      
+      if(userLocalStorage){
+        const user = JSON.parse(userLocalStorage)
+        dispatch({type:"setUser",payload:user})
+        return
+      }
       try{
         dispatch({ type:'setIsLoading', payload: true })
         const req = await fetch(`${process.env.REACT_APP_URL_API}api/users/`,{
@@ -146,7 +154,7 @@ export const useUserContext = () => {
           },
         })
         const resp = await req.json()
-        localStorage.setItem('user',resp.user)
+        localStorage.setItem('user',JSON.stringify(resp.user))
         dispatch({type:"setUser",payload:resp.user})
         dispatch({ type:'setIsLoading', payload: false })
       }

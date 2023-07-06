@@ -10,7 +10,7 @@ import { CreateTodoModalContext } from './CreateTodoContext';
 
 
 export const CreateTodoModal = () => {
-  const { createTodo,isLoading } = useContext(TodoContext)
+  const { createTodo,isLoadingTodoAction } = useContext(TodoContext)
   const { closeModal,isOpenModal } =useContext(CreateTodoModalContext)
   return (
     <Modal
@@ -47,9 +47,9 @@ export const CreateTodoModal = () => {
               <CustomCheckbox label="Completed" className="my-4" name="completed" />
               <Button type="submit" className={`
               mx-auto bg-teal-700 hover:bg-teal-900 
-              ${isLoading?'bg-slate-400 hover:bg-slate-400 ':''}
+              ${isLoadingTodoAction?'bg-slate-400 hover:bg-slate-400 ':''}
               `}
-              disabled={isLoading?true:false}
+              disabled={isLoadingTodoAction?true:false}
               >
                 Create Todo
               </Button>

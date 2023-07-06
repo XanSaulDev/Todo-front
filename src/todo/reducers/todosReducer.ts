@@ -2,7 +2,8 @@ import {  TodoItem, TodoStateInterface } from "../interfaces/interfaces"
 
 type actionTodo = | { type:'setTodos', payload: TodoItem[] } 
                   | { type:'deleteTodo', payload: TodoItem } 
-                  | { type:'setIsLoading',payload: boolean }
+                  | { type:'isLoadingGettingTodos',payload: boolean }
+                  | { type:'isLoadingTodoAction',payload: boolean }
                   | { type: 'deleteTodo', payload: number }
                   | { type: 'addTodo', payload: TodoItem } 
                   | { type: 'updateTodo', payload:TodoItem }
@@ -14,10 +15,15 @@ export const todosReducer = (state:TodoStateInterface,action:actionTodo):TodoSta
         ...state,
         todos: action.payload
       }
-    case 'setIsLoading':
+    case 'isLoadingGettingTodos':
       return {
         ...state,
-        isLoading: action.payload
+        isLoadingGettingTodos: action.payload
+      }
+    case 'isLoadingTodoAction':
+      return {
+        ...state,
+        isLoadingTodoAction: action.payload
       }
     case 'deleteTodo':
       return {
