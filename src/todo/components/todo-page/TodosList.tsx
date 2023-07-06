@@ -17,7 +17,7 @@ export const TodosList = () => {
       </div>
     ))}
     {
-      isLoadingGettingTodos 
+      isLoadingGettingTodos && todos?.length===0
       ? <Spinner /> 
       : todos?.length <=0 && <p className="text-slate-400">Not Todos :(</p>
     }

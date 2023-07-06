@@ -31,9 +31,10 @@ export const useTodoContext = () => {
       console.log(error);
     }
   };
-
+  
   const createTodo = async (formData: TodoProps) => {
     try {
+      dispatch({ type: "isLoadingTodoAction", payload: true });
       const req = await fetch(`${process.env.REACT_APP_URL_API}api/todos`, {
         method: "POST",
         body: JSON.stringify(formData),
@@ -45,14 +46,17 @@ export const useTodoContext = () => {
       const resp = await req.json();
       if (resp.ok) {
         dispatch({ type: "addTodo", payload: resp.todo });
+        dispatch({ type: "isLoadingTodoAction", payload: false });
       }
     } catch (error) {
+      dispatch({ type: "isLoadingTodoAction", payload: false });
       console.log(error);
     }
   };
-
+  
   const deleteTodo = async (id: number) => {
     try {
+      dispatch({ type: "isLoadingTodoAction", payload: true });
       const req = await fetch(`${process.env.REACT_APP_URL_API}api/todos`, {
         method: "DELETE",
         body: JSON.stringify({ id }),
@@ -64,12 +68,14 @@ export const useTodoContext = () => {
       const resp = await req.json();
       if (resp.ok) {
         dispatch({ type: "deleteTodo", payload: id });
+        dispatch({ type: "isLoadingTodoAction", payload: false });
       }
     } catch (error) {
+      dispatch({ type: "isLoadingTodoAction", payload: false });
       console.log(error);
     }
   };
-
+  
   const updateTodo = async (todo:TodoItem) => {
     try{
       dispatch({ type: "isLoadingTodoAction", payload: true });
