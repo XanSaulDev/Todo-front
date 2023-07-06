@@ -12,7 +12,8 @@ export const TodoProvider = ({children}:TodoProviderProps) => {
   const { token,isAuthenticated } = useContext(UserContext)
   const { fetchTodos,
           todos,
-          isLoading,
+          isLoadingGettingTodos,
+          isLoadingTodoAction,
           createTodo,
           deleteTodo,
           updateTodo,
@@ -27,7 +28,8 @@ export const TodoProvider = ({children}:TodoProviderProps) => {
   return (
     <TodoContext.Provider value={{
       todos,
-      isLoading,
+      isLoadingGettingTodos,
+      isLoadingTodoAction,
       createTodo,
       deleteTodo,
       updateTodo,

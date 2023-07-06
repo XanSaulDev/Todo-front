@@ -5,17 +5,18 @@ import { todosReducer } from "../reducers";
 
 const INITIAL_STATE: TodoStateInterface = {
   todos: [],
-  isLoading: true,
+  isLoadingGettingTodos: true,
+  isLoadingTodoAction: false,
 };
 
 export const useTodoContext = () => {
   const { token } = useContext(UserContext);
   const [state, dispatch] = useReducer(todosReducer, INITIAL_STATE);
-  const { todos, isLoading } = state;
+  const { todos, isLoadingTodoAction,isLoadingGettingTodos } = state;
 
   const fetchTodos = async () => {
     try {
-      dispatch({ type: "setIsLoading", payload: true });
+      dispatch({ type: "isLoadingGettingTodos", payload: true });
       const req = await fetch(`${process.env.REACT_APP_URL_API}api/todos`, {
         headers: {
           Authorization: `Bearer ${token}`,
@@ -23,16 +24,17 @@ export const useTodoContext = () => {
       });
 
       const resp = await req.json();
-      dispatch({ type: "setIsLoading", payload: false });
+      dispatch({ type: "isLoadingGettingTodos", payload: false });
       dispatch({ type: "setTodos", payload: resp.todos });
     } catch (error) {
-      dispatch({ type: "setIsLoading", payload: false });
+      dispatch({ type: "isLoadingGettingTodos", payload: false });
       console.log(error);
     }
   };
-
+  
   const createTodo = async (formData: TodoProps) => {
     try {
+      dispatch({ type: "isLoadingTodoAction", payload: true });
       const req = await fetch(`${process.env.REACT_APP_URL_API}api/todos`, {
         method: "POST",
         body: JSON.stringify(formData),
@@ -44,14 +46,17 @@ export const useTodoContext = () => {
       const resp = await req.json();
       if (resp.ok) {
         dispatch({ type: "addTodo", payload: resp.todo });
+        dispatch({ type: "isLoadingTodoAction", payload: false });
       }
     } catch (error) {
+      dispatch({ type: "isLoadingTodoAction", payload: false });
       console.log(error);
     }
   };
-
+  
   const deleteTodo = async (id: number) => {
     try {
+      dispatch({ type: "isLoadingTodoAction", payload: true });
       const req = await fetch(`${process.env.REACT_APP_URL_API}api/todos`, {
         method: "DELETE",
         body: JSON.stringify({ id }),
@@ -63,15 +68,17 @@ export const useTodoContext = () => {
       const resp = await req.json();
       if (resp.ok) {
         dispatch({ type: "deleteTodo", payload: id });
+        dispatch({ type: "isLoadingTodoAction", payload: false });
       }
     } catch (error) {
+      dispatch({ type: "isLoadingTodoAction", payload: false });
       console.log(error);
     }
   };
-
+  
   const updateTodo = async (todo:TodoItem) => {
     try{
-      dispatch({ type: "setIsLoading", payload: true });
+      dispatch({ type: "isLoadingTodoAction", payload: true });
       const req = await fetch(`${process.env.REACT_APP_URL_API}api/todos`, {
         method: "PUT",
         body: JSON.stringify({ 
@@ -84,7 +91,7 @@ export const useTodoContext = () => {
         },
       });
       const resp = await req.json();
-      dispatch({ type: "setIsLoading", payload: false });
+      dispatch({ type: "isLoadingTodoAction", payload: false });
       if (resp.ok) {
         dispatch({type:'updateTodo', payload: resp.todo})
         
@@ -96,7 +103,7 @@ export const useTodoContext = () => {
 
   const searchTodo = async(search:string) =>{
     try {
-      dispatch({ type: "setIsLoading", payload: true });
+      dispatch({ type: "isLoadingTodoAction", payload: true });
       const req = await fetch(`${process.env.REACT_APP_URL_API}api/todos/search-todo`, {
         method: 'POST',
         body: JSON.stringify({search,}),
@@ -107,7 +114,7 @@ export const useTodoContext = () => {
       });
 
       const resp = await req.json();
-      dispatch({ type: "setIsLoading", payload: false });
+      dispatch({ type: "isLoadingTodoAction", payload: false });
       dispatch({type:"setTodos", payload:resp.todos})
     } catch (error) {
 
@@ -118,7 +125,8 @@ export const useTodoContext = () => {
   return {
     todos,
     fetchTodos,
-    isLoading,
+    isLoadingTodoAction,
+    isLoadingGettingTodos,
     createTodo,
     deleteTodo,
     updateTodo,

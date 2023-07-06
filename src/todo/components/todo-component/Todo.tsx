@@ -18,7 +18,7 @@ export const TodoCompoundContext = createContext({} as TodoCompoundContextState)
 
 export const Todo = ({todo,className,children}:TodoComponentProps) => {
 
-  const { deleteTodo,updateTodo,isLoading } = useContext(TodoContext)
+  const { deleteTodo,updateTodo,isLoadingTodoAction } = useContext(TodoContext)
 
   return (
     <TodoCompoundContext.Provider value={{
@@ -39,11 +39,11 @@ export const Todo = ({todo,className,children}:TodoComponentProps) => {
             type="button" 
             className={`
               w-auto bg-cyan-700 hover:bg-cyan-900 
-              ${todo.is_completed&&!isLoading?'bg-green-700 hover:bg-green-900 ':''} 
-              ${isLoading?'bg-slate-400 hover:bg-slate-400 ':''}
+              ${todo.is_completed&&!isLoadingTodoAction?'bg-green-700 hover:bg-green-900 ':''} 
+              ${isLoadingTodoAction?'bg-slate-400 hover:bg-slate-400 ':''}
               `}
             onClick={()=>updateTodo(todo)}
-            disabled={isLoading}
+            disabled={isLoadingTodoAction}
           >
               completed
             </Button>
