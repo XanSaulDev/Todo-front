@@ -16,7 +16,7 @@ import { Button, CustomInputFormik, FormHeader } from '../../../components'
 export const RegisterForm = () => {
   const { handleRegister } = useContext(UserContext)
   return (
-    <div className="bg-white md:px-10 md:py-15 p-10 rounded-lg  mx-auto shadow-xl md:w-122 w-11/12">
+    <div className="bg-white md:px-10 md:py-15 p-10 rounded-lg shadow-xl">
       <div className="w-full">
 
         <FormHeader value="Register" />
