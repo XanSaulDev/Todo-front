@@ -9,7 +9,7 @@ interface AuthLayoutProps {
 
 export const AuthLayout = ({ children }:AuthLayoutProps) => {
   return (
-    <div className="bg-slate-200 ">
+    <div>
       <Nav>
         {
           authRoutes.map(({to,name,className})=>(
@@ -17,7 +17,7 @@ export const AuthLayout = ({ children }:AuthLayoutProps) => {
           ))
         }
       </Nav>
-      <div className="flex items-center md:justify-center md:mt-0 mt-14 h-screen flex-col gap-10">
+      <div className="flex items-center md:justify-center md:my-0 my-10 md:h-screen flex-col gap-10">
         {children}
       </div>
     </div>
