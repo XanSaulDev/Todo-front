@@ -44,7 +44,7 @@ export const CreateTodoModal = () => {
             <Form>
               <CustomInputFormik labelText="Tile" name="title" type="text"  />
               <CustomInputFormik labelText="Detail" name="detail" type="text" className="mb-2"  />
-              <CustomCheckbox label="Completed" className="my-4" name="completed" />
+              <CustomCheckbox label="Completed" className="my-4" name="is_completed" />
               <Button type="submit" className={`
               mx-auto ${isLoadingTodoAction?'bg-slate-400 hover:bg-slate-400 ':'bg-teal-700 hover:bg-teal-900 '}
               `}
