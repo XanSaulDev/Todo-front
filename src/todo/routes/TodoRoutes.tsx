@@ -13,8 +13,8 @@ export const TodoRoutes = () => {
             <Route key={path} path={path} element={<Component />} />
           ))
         }
-        <Route path="account" element={<AccountPage />} />
-        <Route path="*" element={<Navigate to="/" replace />} />
+        <Route path={`${process.env.REACT_APP_URL_HOME_ROOT}account`} element={<AccountPage />} />
+        <Route path="*" element={<Navigate to={`${process.env.REACT_APP_URL_HOME_ROOT}`} replace />} />
       </Routes>
     </TodoLayout>
   )

@@ -14,7 +14,7 @@ export const AuthRoutes = () => {
             <Route key={path} path={path} element={<Component />} />
           ))
         }
-        <Route path="*" element={<Navigate to="login" replace />} />
+        <Route path="*" element={<Navigate to={`${process.env.REACT_APP_URL_HOME_ROOT}login`} replace />} />
       </Routes>
     </AuthLayout>
   )

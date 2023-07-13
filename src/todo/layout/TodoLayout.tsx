@@ -18,7 +18,7 @@ export const TodoLayout = ({children}:TodoLayoutProps) => {
             <NavItem key={to} to={to} name={name} />
             ))
         }
-        <NavItem to="/account" name={`User: ${user?.full_name}`} />
+        <NavItem to={`${process.env.REACT_APP_URL_HOME_ROOT}account`} name={`User: ${user?.full_name}`} />
         <Button 
           type="button" 
           className="mb-0 mt-0 w-24 px-0 border-2 hover:text-teal-400 hover:border-teal-400 hover:bg-teal-700"
