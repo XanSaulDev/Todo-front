@@ -8,7 +8,7 @@ export interface User {
 export interface UserState{
   user: User | undefined;
   isAuthenticated: boolean;
-  token: string;
+  token: string ;
   isLoading: boolean;
 }
 
@@ -19,6 +19,7 @@ export interface UserContextProps extends UserState{
   handleLogout: ()=>void;
   getTokenFromLocalStorage:()=>Promise<void>;
   updateAccount: (formData: UserUpdateForm) => Promise<void>;
+  checkToken: (tokenToCheck: string) => void;
 }
 
 export interface FormDataUserRegister{

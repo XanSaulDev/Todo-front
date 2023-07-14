@@ -4,8 +4,10 @@ import { userReducer } from "../reducers"
 import { GlobalContext } from "../../context"
 import jwt_decode from "jwt-decode";
 
-// ES6 Modules or TypeScript
+
 import Swal from 'sweetalert2'
+import TodoApi from "../../api/todo-api";
+import { AxiosError } from "axios";
 
 
 
@@ -18,7 +20,7 @@ const INITIAL_STATE:UserState = {
 
 
 export const useUserContext = () => {
-  const { setIsLoading: globalSetLoading, isLoading: globalLoading } = useContext(GlobalContext)
+  const { setIsLoading: globalSetLoading } = useContext(GlobalContext)
   const [state,dispatch] = useReducer(userReducer,INITIAL_STATE)
   const { isAuthenticated,isLoading,token,user } = state
 
@@ -26,16 +28,9 @@ export const useUserContext = () => {
     try{
       globalSetLoading(true)
       dispatch({ type:'setIsLoading', payload: true })
-      const req = await fetch(`${process.env.REACT_APP_URL_API}api/users/`,{
-        method: 'POST',
-        body: JSON.stringify(formData),
-        mode: "cors",
-        headers: {
-          "Content-Type": "application/json",
-          // 'Content-Type': 'application/x-www-form-urlencoded',
-        },
-      })
-      const resp:UserResponse = await req.json()
+      const req = await TodoApi.post('api/users',formData)
+      const { data } = req
+      const resp : UserResponse = data
 
       if(!resp.ok){
         const error = Object.entries(resp.errors!).map(([key, value]) => (value))
@@ -66,26 +61,20 @@ export const useUserContext = () => {
   const handleLogin = async(formData:FormDataUserLogin)=>{
     try{
       globalSetLoading(true)
+
       dispatch({ type:'setIsLoading', payload: true })
-      const req = await fetch(`${process.env.REACT_APP_URL_API}api/users/login`,{
-        method: 'POST',
-        body: JSON.stringify(formData),
-        mode: "cors",
-        headers: {
-          "Content-Type": "application/json",
-          // 'Content-Type': 'application/x-www-form-urlencoded',
-        },
-      })
-      const resp:UserResponse = await req.json()
+      const req = await TodoApi.post('api/users/login',formData)
+      const { data } = req
       
-      if(!resp.ok){
-        const error = Object.entries(resp.errors!).map(([key, value]) => (value))
+      if(!data.ok){
+        const error = Object.entries(data.errors!).map(([key, value]) => (value))
         Swal.fire({
           title: 'Error!',
           text: error.toString(),
           icon: 'error',
           confirmButtonText: 'Cool'
         })
+
         globalSetLoading(false)
         dispatch({ type:'setIsLoading', payload: false })
         throw new Error('Error al obtener los datos. Código de estados: '+ error );
@@ -93,12 +82,12 @@ export const useUserContext = () => {
       
       globalSetLoading(false)
       dispatch({ type:'setIsLoading', payload: false })
-      dispatch({ type:'setUser', payload: resp.user })
+      dispatch({ type:'setUser', payload: data.user })
       dispatch({ type:'setIsAuthenticated', payload: true })
-      dispatch({ type:'setToken', payload: resp.access })
-      localStorage.setItem('access',resp.access)
-      localStorage.setItem('user',JSON.stringify(resp.user))
-      localStorage.setItem('refresh',resp.refresh)
+      dispatch({ type:'setToken', payload: data.access })
+      localStorage.setItem('access',data.access)
+      localStorage.setItem('user',JSON.stringify(data.user))
+      localStorage.setItem('refresh',data.refresh)
     }
     catch(error){
       console.log(error)
@@ -117,16 +106,10 @@ export const useUserContext = () => {
       }
       try{
         dispatch({ type:'setIsLoading', payload: true })
-        const req = await fetch(`${process.env.REACT_APP_URL_API}api/users/`,{
-          method: 'GET',
-          mode: "cors",
-          headers: {
-            "Content-Type": "application/json",
-            // 'Content-Type': 'application/x-www-form-urlencoded',
-            "Authorization": `Bearer ${token}`
-          },
-        })
-        const resp = await req.json()
+        const req =  await TodoApi.get('api/users')
+        const { data } =  req
+        const resp = data
+
         localStorage.setItem('user',JSON.stringify(resp.user))
         dispatch({type:"setUser",payload:resp.user})
         dispatch({ type:'setIsLoading', payload: false })
@@ -155,20 +138,13 @@ export const useUserContext = () => {
     try{
       checkToken(token)
       dispatch({ type:'setIsLoading', payload: true })
-      const req = await fetch(`${process.env.REACT_APP_URL_API}api/users/`,{
-        method: 'PUT',
-        body: JSON.stringify(formData),
-        mode: "cors",
-        headers: {
-          "Content-Type": "application/json",
-          // 'Content-Type': 'application/x-www-form-urlencoded',
-          "Authorization": `Bearer ${token}`
-        },
-      })
-      const resp = await req.json()
+      const req = await TodoApi.put('api/users/',formData)
+      const { data } = req
 
-      if(!resp.ok){
-        const error = Object.entries(resp.errors!).map(([key, value]) => (value))
+      
+
+      if(!data.ok){
+        const error = Object.entries(data.errors!).map(([key, value]) => (value))
         Swal.fire({
           title: 'Error!',
           text: error.toString(),
@@ -178,16 +154,29 @@ export const useUserContext = () => {
         dispatch({ type:'setIsLoading', payload: false })
         throw new Error('Error al obtener los datos. Código de estados: '+ error );
       }
+
       Swal.fire({
         title: 'Success!',
         icon: 'success',
         confirmButtonText: 'Cool'
       })
+
       dispatch({ type:'setIsLoading', payload: false })
-      localStorage.setItem('user',JSON.stringify(resp.user))
-      dispatch({type:'setUser', payload:resp.user})
+      localStorage.setItem('user',JSON.stringify(data.user))
+      dispatch({type:'setUser', payload:data.user})
     }
     catch(error){
+    const err = error as AxiosError
+
+      if(err.response?.status===401){
+        Swal.fire({
+          title: 'Warning',
+          text: 'your session has expired',
+          icon: 'info',
+          confirmButtonText: 'Ok'
+        })
+      }
+
       console.log(error)
     }
   }
@@ -202,16 +191,13 @@ export const useUserContext = () => {
       handleLogout()
       return
     } 
-    
     checkToken(access)
-    
     dispatch({ type:'setToken', payload: access })
     dispatch({ type:'setIsLoading', payload: false })
     dispatch({ type:'setIsAuthenticated', payload: true })
   }
 
   const checkToken = (tokenToCheck:string) => {
-    
     const { exp } = jwt_decode<Jwt>(tokenToCheck)
     const expDate = new Date(exp*1000)
     const date = new Date()
