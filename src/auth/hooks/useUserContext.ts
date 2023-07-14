@@ -105,33 +105,6 @@ export const useUserContext = () => {
     }
   }
   
-  
-  const getTokenFromLocalStorage = async() =>{
-
-    dispatch({ type:'setIsLoading', payload: true })
-
-    const access = localStorage.getItem('access');
-
-    if (!!!access){
-      dispatch({ type:'setIsAuthenticated', payload: false })
-      dispatch({ type:'setIsLoading', payload: false })
-      return
-    } 
-    
-    const { exp } = jwt_decode<Jwt>(access)
-    const date = new Date()
-
-    if (exp < date.getTime()){
-      localStorage.removeItem('token')
-      dispatch({ type:'setIsAuthenticated', payload: false })
-      dispatch({ type:'setIsLoading', payload: false })
-    }
-    
-
-    dispatch({ type:'setIsLoading', payload: false })
-    dispatch({ type:'setIsAuthenticated', payload: true })
-    dispatch({ type:'setToken', payload: access })
-  }
 
   const getUserData = async() =>{
     if(isAuthenticated){
@@ -180,6 +153,7 @@ export const useUserContext = () => {
   
   const updateAccount = async(formData:UserUpdateForm)=> {
     try{
+      checkToken(token)
       dispatch({ type:'setIsLoading', payload: true })
       const req = await fetch(`${process.env.REACT_APP_URL_API}api/users/`,{
         method: 'PUT',
@@ -218,6 +192,34 @@ export const useUserContext = () => {
     }
   }
 
+  const getTokenFromLocalStorage = async() =>{
+
+    dispatch({ type:'setIsLoading', payload: true })
+
+    const access = localStorage.getItem('access');
+    
+    if (!!!access){
+      handleLogout()
+      return
+    } 
+    
+    checkToken(access)
+    
+    dispatch({ type:'setToken', payload: access })
+    dispatch({ type:'setIsLoading', payload: false })
+    dispatch({ type:'setIsAuthenticated', payload: true })
+  }
+
+  const checkToken = (tokenToCheck:string) => {
+    
+    const { exp } = jwt_decode<Jwt>(tokenToCheck)
+    const expDate = new Date(exp*1000)
+    const date = new Date()
+
+    if (expDate.getTime() < date.getTime()){
+      handleLogout()
+    }
+  }
 
   return {
     isAuthenticated,
@@ -229,6 +231,7 @@ export const useUserContext = () => {
     isLoading,
     handleLogout,
     token,
-    updateAccount
+    updateAccount,
+    checkToken
   } 
 }
