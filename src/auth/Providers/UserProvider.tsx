@@ -17,7 +17,8 @@ export const UserProvider = ({children}:UserProviderProps) => {
     isLoading,
     handleLogout,
     token,
-    updateAccount
+    updateAccount,
+    checkToken
     } = useUserContext()
 
 
@@ -40,7 +41,8 @@ export const UserProvider = ({children}:UserProviderProps) => {
     isLoading,
     handleLogout,
     token,
-    updateAccount
+    updateAccount,
+    checkToken
     }}>
       {children}
     </UserContext.Provider>
