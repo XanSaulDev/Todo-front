@@ -1,0 +1,1 @@
+export { modalErrors } from "./ErrorModal";

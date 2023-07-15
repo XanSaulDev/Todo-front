@@ -1,5 +1,5 @@
 import { useContext, useReducer } from "react"
-import { FormDataUserLogin, FormDataUserRegister, Jwt, UserResponse, UserState, UserUpdateForm } from "../interfaces/interfaces"
+import { FormDataUserLogin, FormDataUserRegister, Jwt, UserState, UserUpdateForm } from "../interfaces/interfaces"
 import { userReducer } from "../reducers"
 import { GlobalContext } from "../../context"
 import jwt_decode from "jwt-decode";
@@ -8,8 +8,7 @@ import jwt_decode from "jwt-decode";
 import Swal from 'sweetalert2'
 import TodoApi from "../../api/todo-api";
 import { AxiosError } from "axios";
-
-
+import { modalErrors } from "../../components/modals";
 
 const INITIAL_STATE:UserState = {
   user: undefined,
@@ -18,43 +17,35 @@ const INITIAL_STATE:UserState = {
   isLoading: false
 }
 
-
 export const useUserContext = () => {
   const { setIsLoading: globalSetLoading } = useContext(GlobalContext)
   const [state,dispatch] = useReducer(userReducer,INITIAL_STATE)
   const { isAuthenticated,isLoading,token,user } = state
-
+  
   const handleRegister = async(formData:FormDataUserRegister) => {
     try{
       globalSetLoading(true)
-      dispatch({ type:'setIsLoading', payload: true })
-      const req = await TodoApi.post('api/users',formData)
-      const { data } = req
-      const resp : UserResponse = data
 
-      if(!resp.ok){
-        const error = Object.entries(resp.errors!).map(([key, value]) => (value))
-        Swal.fire({
-          title: 'Error!',
-          text: error.toString(),
-          icon: 'error',
-          confirmButtonText: 'Cool'
-        })
-        globalSetLoading(false)
-        dispatch({ type:'setIsLoading', payload: false })
-        throw new Error('Error al obtener los datos. Código de estados: '+ error );
-      }
+      dispatch({ type:'setIsLoading', payload: true })
       
+      const req = await TodoApi.post('api/users/register',formData)
+      const { data } = req
+
       globalSetLoading(false)
-      dispatch({ type:'setIsLoading', payload: false })
-      dispatch({ type:'setUser', payload: resp.user })
-      dispatch({ type:'setToken', payload: resp.access })
-      dispatch({ type:'setIsAuthenticated', payload: true })
-      localStorage.setItem('access',resp.access)
-      localStorage.setItem('refresh',resp.refresh)
+
+      dispatch({type:'loginUser', payload:{token:data.access,user:data.user}})
+      
+      localStorage.setItem('access',data.access)
+      localStorage.setItem('refresh',data.refresh)
     }
     catch(error){
-      console.log(error)
+      const err = error as AxiosError
+      console.log(err)
+      if(err.response?.data){
+        modalErrors(err)
+        globalSetLoading(false)
+        dispatch({ type:'setIsLoading', payload: false })
+      }
     }
   }
 
@@ -66,69 +57,73 @@ export const useUserContext = () => {
       const req = await TodoApi.post('api/users/login',formData)
       const { data } = req
       
-      if(!data.ok){
-        const error = Object.entries(data.errors!).map(([key, value]) => (value))
-        Swal.fire({
-          title: 'Error!',
-          text: error.toString(),
-          icon: 'error',
-          confirmButtonText: 'Cool'
-        })
-
-        globalSetLoading(false)
-        dispatch({ type:'setIsLoading', payload: false })
-        throw new Error('Error al obtener los datos. Código de estados: '+ error );
-      }
-      
       globalSetLoading(false)
-      dispatch({ type:'setIsLoading', payload: false })
-      dispatch({ type:'setUser', payload: data.user })
-      dispatch({ type:'setIsAuthenticated', payload: true })
-      dispatch({ type:'setToken', payload: data.access })
+      dispatch({type:'loginUser', payload:{token:data.access,user:data.user}})
+
       localStorage.setItem('access',data.access)
       localStorage.setItem('user',JSON.stringify(data.user))
       localStorage.setItem('refresh',data.refresh)
     }
     catch(error){
-      console.log(error)
+      const err = error as AxiosError
+      console.log(err)
+      if(err.response?.data){
+        modalErrors(err)
+        globalSetLoading(false)
+        dispatch({ type:'setIsLoading', payload: false })
+      }
     }
   }
   
+  const loadUserDataFromLocalStorage = async() =>{
+
+    const userLocalStorage = await localStorage.getItem('user')
+    dispatch({type:'startLoadingUserData'})
+
+    if(userLocalStorage){
+      const user = JSON.parse(userLocalStorage)
+      dispatch({type:'handleLoadUserData', payload:{ user } })
+      return true
+    }
+    return false
+  }
 
   const getUserData = async() =>{
-    if(isAuthenticated){
-      const userLocalStorage = localStorage.getItem('user')
-      
-      if(userLocalStorage){
-        const user = JSON.parse(userLocalStorage)
-        dispatch({type:"setUser",payload:user})
-        return
-      }
-      try{
-        dispatch({ type:'setIsLoading', payload: true })
-        const req =  await TodoApi.get('api/users')
-        const { data } =  req
-        const resp = data
 
-        localStorage.setItem('user',JSON.stringify(resp.user))
-        dispatch({type:"setUser",payload:resp.user})
-        dispatch({ type:'setIsLoading', payload: false })
-      }
-      catch(error){
-        console.log(error)
-        dispatch({ type:'setIsLoading', payload: false })
+    if(isAuthenticated){
+      
+      const isLocalUserRetrieved = await loadUserDataFromLocalStorage()
+
+      if(!isLocalUserRetrieved){
+        
+        try{
+          dispatch({ type: 'startLoadingUserData' })
+
+          const req =  await TodoApi.get('api/users')
+          const { data } =  req
+          const resp = data
+  
+          localStorage.setItem('user',JSON.stringify(resp.user))
+          dispatch({type:'handleLoadUserData', payload:{ user:resp.user } })
+        }
+        catch(error){
+          console.log(error)
+          dispatch({ type:'setIsLoading', payload: false })
+        }
       }
     }
+
   }
 
   const handleLogout = () =>{
     try{
+
       localStorage.removeItem('access')
       localStorage.removeItem('refresh')
       localStorage.removeItem('user')
-      dispatch({type:"setIsAuthenticated", payload:false})
-      dispatch({type:"setUser", payload: undefined })
-      dispatch({type:"setToken", payload: '' })
+
+      dispatch({type:"handleLogout"})
+
     }catch(error){ 
       console.log(error)
     }
@@ -138,22 +133,9 @@ export const useUserContext = () => {
     try{
       checkToken(token)
       dispatch({ type:'setIsLoading', payload: true })
+
       const req = await TodoApi.put('api/users/',formData)
       const { data } = req
-
-      
-
-      if(!data.ok){
-        const error = Object.entries(data.errors!).map(([key, value]) => (value))
-        Swal.fire({
-          title: 'Error!',
-          text: error.toString(),
-          icon: 'error',
-          confirmButtonText: 'Cool'
-        })
-        dispatch({ type:'setIsLoading', payload: false })
-        throw new Error('Error al obtener los datos. Código de estados: '+ error );
-      }
 
       Swal.fire({
         title: 'Success!',
@@ -161,23 +143,15 @@ export const useUserContext = () => {
         confirmButtonText: 'Cool'
       })
 
-      dispatch({ type:'setIsLoading', payload: false })
       localStorage.setItem('user',JSON.stringify(data.user))
-      dispatch({type:'setUser', payload:data.user})
+      dispatch({type:'handleUpdateUser', payload: { user:data.user } })
     }
     catch(error){
-    const err = error as AxiosError
+      const err = error as AxiosError
 
-      if(err.response?.status===401){
-        Swal.fire({
-          title: 'Warning',
-          text: 'your session has expired',
-          icon: 'info',
-          confirmButtonText: 'Ok'
-        })
-      }
+      modalErrors(err)
+      dispatch({ type:'setIsLoading', payload: false })
 
-      console.log(error)
     }
   }
 
@@ -192,9 +166,8 @@ export const useUserContext = () => {
       return
     } 
     checkToken(access)
-    dispatch({ type:'setToken', payload: access })
-    dispatch({ type:'setIsLoading', payload: false })
-    dispatch({ type:'setIsAuthenticated', payload: true })
+    dispatch({ type:'handleRetrieveTokenLocalStorage', payload: { token:access } })
+
   }
 
   const checkToken = (tokenToCheck:string) => {
