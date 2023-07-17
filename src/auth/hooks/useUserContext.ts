@@ -1,14 +1,15 @@
 import { useContext, useReducer } from "react"
 import { FormDataUserLogin, FormDataUserRegister, Jwt, UserState, UserUpdateForm } from "../interfaces/interfaces"
 import { userReducer } from "../reducers"
-import { GlobalContext } from "../../context"
+
 import jwt_decode from "jwt-decode";
 
 
 import Swal from 'sweetalert2'
-import TodoApi from "../../api/todo-api";
+
 import { AxiosError } from "axios";
-import { modalErrors } from "../../components/modals";
+import { GlobalContext, TodoApi, modalErrors } from "../../shared";
+
 
 const INITIAL_STATE:UserState = {
   user: undefined,

@@ -4,7 +4,7 @@ import { Formik,Form } from "formik"
 import * as Yup from 'yup'
 import { UserContext } from "../../context"
 import { useContext } from "react"
-import { Button, CustomInputFormik, FormHeader } from "../../../components"
+import { Button, CustomInputFormik, FormHeader } from "../../../shared"
 
 export const LoginForm = () => {
   const { handleLogin } = useContext(UserContext)

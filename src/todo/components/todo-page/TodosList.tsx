@@ -1,7 +1,8 @@
 import React, { useContext } from 'react'
 import { TodoContext } from '../../context'
 import { Todo, TodoDetail, TodoTitle } from '../todo-component'
-import { Spinner } from '../../../components'
+import { Spinner } from '../../../shared'
+
 
 export const TodosList = () => {
   const { todos,isLoadingGettingTodos } = useContext(TodoContext)

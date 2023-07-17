@@ -1,8 +1,9 @@
 import React,{ useContext } from 'react'
-import { Button, CustomInputFormik, FormHeader } from '../../../../components'
+
 import { Form, Formik } from 'formik'
 import * as Yup from 'yup'
 import { UserContext } from '../../../../auth'
+import { Button, CustomInputFormik, FormHeader } from '../../../../shared'
 
 
 export const UpdateAccountForm = () => {

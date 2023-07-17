@@ -1,11 +1,12 @@
 import { Form, Formik } from 'formik';
 import React, { useContext } from 'react'
 import Modal from 'react-modal';
-import { Button, CustomCheckbox, CustomInputFormik, FormHeader } from '../../../../components';
+
 import * as Yup from 'yup'
 import { TodoContext } from '../../../context';
 import { TodoProps } from '../../../interfaces/interfaces';
 import { CreateTodoModalContext } from './CreateTodoContext';
+import { Button, CustomCheckbox, CustomInputFormik, FormHeader } from '../../../../shared';
 
 
 

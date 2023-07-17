@@ -1,9 +1,8 @@
 import React, { useContext, useRef} from 'react'
-import { useForm } from '../../../hooks'
 import { CreateTodoModalContext } from '../forms'
-import { Button, CustomInput, TextTypeAsPlaceHolder } from '../../../components'
 import { PlusIcon } from '../../assets'
 import { TodoContext } from '../../context'
+import { Button, CustomInput, TextTypeAsPlaceHolder } from '../../../shared'
 
 export const TodosListHeader = () => {
 

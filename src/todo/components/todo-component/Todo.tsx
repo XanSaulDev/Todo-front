@@ -1,8 +1,9 @@
 import React, { createContext, useContext } from 'react'
 import { TodoItem } from '../../interfaces/interfaces'
 import { CheckIcon, TrashIcon } from '../../assets';
-import { Button } from '../../../components';
+
 import { TodoContext } from '../../context';
+import { Button } from '../../../shared';
 
 interface TodoComponentProps{
   todo: TodoItem;
