@@ -1,6 +1,6 @@
 import React from 'react'
-import { Nav, NavItem } from '../../components';
 import { authRoutes } from '../routes/routes';
+import { Nav, NavItem } from '../../shared';
 
 
 interface AuthLayoutProps {

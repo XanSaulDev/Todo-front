@@ -1,6 +1,6 @@
 import axios, { AxiosRequestHeaders } from "axios";
 
-const TodoApi = axios.create({
+export const TodoApi = axios.create({
   baseURL: process.env.REACT_APP_URL_API
 });
 
@@ -18,4 +18,3 @@ TodoApi.interceptors.request.use((config) => {
   return config;
 });
 
-export default TodoApi;

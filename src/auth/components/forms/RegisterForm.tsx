@@ -2,7 +2,8 @@ import React, { useContext } from 'react'
 import { Formik, Form } from 'formik'
 import * as Yup from 'yup'
 import { UserContext } from '../../context'
-import { Button, CustomInputFormik, FormHeader } from '../../../components'
+import { Button, CustomInputFormik, FormHeader } from '../../../shared'
+
 
 // Example request obj
 // {
