@@ -1,7 +1,7 @@
 import React, { useContext } from 'react'
-import { Button, Nav, NavItem } from '../../components'
 import { todoRoutes } from '../routes/routes'
 import { UserContext } from '../../auth'
+import { Button, Nav, NavItem } from '../../shared'
 
 
 interface TodoLayoutProps{

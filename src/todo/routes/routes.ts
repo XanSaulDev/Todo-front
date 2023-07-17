@@ -1,4 +1,5 @@
-import { RoutesInterfaceNav } from "../../interfaces";
+
+import { RoutesInterfaceNav } from "../../shared";
 import { TodosPage } from "../pages";
 
 

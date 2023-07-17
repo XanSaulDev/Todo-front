@@ -1,9 +1,9 @@
 import React, { useContext } from 'react'
 import { BrowserRouter, Route, Routes } from 'react-router-dom'
 import { AuthRoutes, UserContext } from '../auth'
-import { Loading } from '../components'
+import { Loading } from '../shared/components'
 import { TodoRoutes } from '../todo/routes'
-import { GlobalContext } from '../context'
+import { GlobalContext } from '../shared/context'
 
 
 

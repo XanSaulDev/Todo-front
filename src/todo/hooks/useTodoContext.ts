@@ -2,9 +2,10 @@ import { useContext, useReducer } from "react";
 import { UserContext } from "../../auth";
 import { TodoProps, TodoItem, TodoStateInterface } from "../interfaces/interfaces";
 import { todosReducer } from "../reducers";
-import TodoApi from "../../api/todo-api";
+
 import { AxiosError} from "axios";
 import Swal from 'sweetalert2';
+import { TodoApi } from "../../api";
 
 const INITIAL_STATE: TodoStateInterface = {
   todos: [],
